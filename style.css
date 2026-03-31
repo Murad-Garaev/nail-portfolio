@@ -546,3 +546,72 @@ nav a:hover {
         align-items: center;
     }
 }
+
+/* ========== СЛАЙДЕР ========== */
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    margin: 2rem 0;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slider-slide {
+    flex: 0 0 100%;
+    text-align: center;
+    padding: 1rem;
+}
+
+.slider-slide img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 24px;
+}
+
+.slider-prev, .slider-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.7);
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 50%;
+    backdrop-filter: blur(4px);
+    transition: 0.2s;
+}
+
+.slider-prev:hover, .slider-next:hover {
+    background: rgba(255,255,255,0.9);
+}
+
+.slider-prev { left: 10px; }
+.slider-next { right: 10px; }
+
+.slider-dots {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #d4c5b0;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.dot.active {
+    background: #9bbf8f;
+    width: 20px;
+    border-radius: 5px;
+}
