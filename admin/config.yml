@@ -11,8 +11,9 @@ collections:
   - name: "settings"
     label: "Настройки сайта"
     files:
-      - file: "content/settings.json"
+      - name: "general"
         label: "Общие настройки"
+        file: "content/settings.json"
         fields:
           - { label: "Короткий текст 'Обо мне' (на главной)", name: "aboutShort", widget: "text" }
           - { label: "Полный текст 'Обо мне'", name: "aboutFull", widget: "markdown" }
