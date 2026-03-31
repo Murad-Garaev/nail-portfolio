@@ -615,3 +615,40 @@ nav a:hover {
     width: 20px;
     border-radius: 5px;
 }
+
+/* ========== ПОПАП ПРИ ВЫХОДЕ ========== */
+.exit-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(5px);
+    z-index: 3000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.exit-popup.active {
+    display: flex;
+}
+
+.exit-popup-content {
+    background: white;
+    border-radius: 32px;
+    padding: 2rem;
+    text-align: center;
+    max-width: 400px;
+    position: relative;
+    animation: fadeInUp 0.3s ease;
+}
+
+.exit-popup-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
