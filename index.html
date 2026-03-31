@@ -1,67 +1,22 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Маникюрная студия | Портфолио</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&display=swap" rel="stylesheet">
-</head>
-<body>
-    <header>
-        <div class="container header-flex">
-            <div class="logo">Nail Studio</div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">Главная</a></li>
-                    <li><a href="about.html">Обо мне</a></li>
-                    <li><a href="portfolio.html">Портфолио</a></li>
-                    <li><a href="prices.html">Услуги и цены</a></li>
-                    <li><a href="reviews.html">Отзывы</a></li>
-                    <li><a href="blog.html">Блог</a></li>
-                    <li><a href="contact.html">Контакты</a></li>
-                </ul>
-            </nav>
-            <div class="mobile-menu-btn">☰</div>
-        </div>
-    </header>
+<section class="hero">
+    <div class="container hero-content">
+        <h1 id="heroTitle">Создаю красоту на ваших руках</h1>
+        <p id="heroText">Маникюр, педикюр, дизайн – с любовью к деталям</p>
+        <a href="https://ваша-ссылка-на-запись.ru" class="btn-primary" target="_blank">Записаться онлайн</a>
+    </div>
+</section>
 
-    <main>
-        <section class="hero">
-            <div class="container hero-content">
-                <h1>Создаю красоту на ваших руках</h1>
-                <p>Маникюр, педикюр, дизайн – с любовью к деталям</p>
-                <a href="https://ваша-ссылка-на-запись.ru" class="btn-primary" target="_blank">Записаться онлайн</a>
-            </div>
-        </section>
+<section class="featured-works">
+    <div class="container">
+        <h2>Последние работы</h2>
+        <div class="works-grid" id="featuredWorks"></div>
+    </div>
+</section>
 
-        <section class="featured-works">
-            <div class="container">
-                <h2>Последние работы</h2>
-                <div class="works-grid" id="featuredWorks">
-                    <!-- Сюда будут подгружаться последние 3 работы из портфолио -->
-                </div>
-            </div>
-        </section>
-
-        <section class="about-short">
-            <div class="container">
-                <h2>Немного обо мне</h2>
-                <div class="about-text" id="shortAbout"></div>
-                <a href="about.html" class="btn-secondary">Подробнее</a>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 Маникюрная студия. Все права защищены.</p>
-            <div class="socials" id="footerSocials"></div>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+<section class="about-short">
+    <div class="container">
+        <h2>Немного обо мне</h2>
+        <div id="shortAbout"></div>
+        <a href="about.html" class="btn-secondary">Подробнее</a>
+    </div>
+</section>
