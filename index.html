@@ -55,4 +55,95 @@
 <main>
     <section class="hero">
         <div class="container hero-content">
-            <
+            <h1 id="heroTitle">Создаю красоту на ваших руках</h1>
+            <p id="heroText">Маникюр, педикюр, дизайн – с любовью к деталям</p>
+            <a href="https://ваша-ссылка-на-запись.ru" class="btn-primary" target="_blank">Записаться онлайн</a>
+        </div>
+    </section>
+
+    <!-- Слайдер последних работ -->
+    <section class="featured-works">
+        <div class="container">
+            <h2>Последние работы</h2>
+            <div class="slider-container">
+                <div class="slider-track"></div>
+                <button class="slider-prev">❮</button>
+                <button class="slider-next">❯</button>
+                <div class="slider-dots"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок гарантий -->
+    <section class="guarantees animate-on-scroll">
+        <div class="container">
+            <h2>Мои гарантии</h2>
+            <div class="guarantees-grid">
+                <div class="guarantee-item">
+                    <div class="guarantee-icon">🧼</div>
+                    <h4>Стерильность</h4>
+                    <p>Инструменты проходят многоступенчатую стерилизацию</p>
+                </div>
+                <div class="guarantee-item">
+                    <div class="guarantee-icon">💎</div>
+                    <h4>Премиальные материалы</h4>
+                    <p>Luxio, Kodi, CND — только лучшее для ваших ногтей</p>
+                </div>
+                <div class="guarantee-item">
+                    <div class="guarantee-icon">⏳</div>
+                    <h4>Долговечность до 3+ недель</h4>
+                    <p>Покрытие держится идеально, без сколов</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Счётчик клиентов -->
+    <section class="counter-section animate-on-scroll">
+        <div class="container">
+            <div class="counter-number" data-target="150">0</div>
+            <p>довольных клиентов уже доверили мне свои ручки</p>
+        </div>
+    </section>
+
+    <!-- Короткое "Обо мне" -->
+    <section class="about-short animate-on-scroll">
+        <div class="container">
+            <h2>Немного обо мне</h2>
+            <div id="shortAbout"></div>
+            <a href="about.html" class="btn-secondary">Подробнее</a>
+        </div>
+    </section>
+
+    <!-- Встроенная форма записи (Telegram) -->
+    <section class="booking-section animate-on-scroll">
+        <div class="container">
+            <h2>Записаться онлайн</h2>
+            <form id="inlineBookingForm" class="booking-form">
+                <div class="form-group">
+                    <input type="text" id="inlineName" placeholder="Ваше имя" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" id="inlinePhone" placeholder="Телефон" required>
+                </div>
+                <button type="submit" class="btn-primary">Отправить заявку</button>
+                <p style="text-align:center; margin-top:1rem;">или</p>
+                <a href="https://ваша-ссылка-на-запись.ru" class="btn-secondary" target="_blank" style="display:block; text-align:center;">Записаться через внешний сервис</a>
+            </form>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 Маникюрная студия. Все права защищены.</p>
+        <div class="socials" id="footerSocials"></div>
+    </div>
+</footer>
+
+<!-- Липкая кнопка для мобильных -->
+<a href="https://ваша-ссылка-на-запись.ru" class="btn-sticky" target="_blank">Записаться</a>
+
+<script src="script.js"></script>
+</body>
+</html>
