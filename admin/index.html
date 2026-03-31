@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Панель управления | Маникюрная студия</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Админка | Маникюрная студия</title>
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 </head>
 <body>
@@ -12,9 +12,11 @@
             config: {
                 backend: {
                     name: "github",
-                    repo: "https://github.com/Murad-Garaev/nail-portfolio.git",
-                    branch: "main"
+                    repo: "ВАШ_ЛОГИН/НАЗВАНИЕ_РЕПОЗИТОРИЯ",   // ЗАМЕНИТЕ!
+                    branch: "main",
+                    base_url: "https://auth.decapcms.org"
                 },
+                local_backend: false,
                 media_folder: "public/images",
                 public_folder: "/images",
                 collections: [
