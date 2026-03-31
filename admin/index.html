@@ -8,8 +8,10 @@
 </head>
 <body>
     <script>
-        // Decap CMS автоматически загрузит config.yml из той же папки
-        console.log("Decap CMS загружается...");
+        // Ждём полной загрузки DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            DecapCMS.init();
+        });
     </script>
 </body>
 </html>
