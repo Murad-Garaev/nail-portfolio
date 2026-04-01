@@ -36,17 +36,29 @@ function initLightbox() {
     function open(src) {
         img.src = src;
         lightbox.classList.add('active');
+        // Блокируем скролл фона при открытии
+        document.body.style.overflow = 'hidden';
     }
     function closeLightbox() {
         lightbox.classList.remove('active');
+        document.body.style.overflow = '';
         setTimeout(() => { img.src = ''; }, 300);
     }
 
     close.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    
+    // Закрытие по Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+            closeLightbox();
+        }
+    });
 
     document.addEventListener('click', (e) => {
-        if (e.target.tagName === 'IMG' && e.target.closest('[data-lightbox]')) {
+        // Улучшенная проверка: ищем атрибут data-lightbox у изображения или родителя
+        const lightboxTrigger = e.target.closest('[data-lightbox]');
+        if (lightboxTrigger && e.target.tagName === 'IMG') {
             e.preventDefault();
             open(e.target.src);
         }
@@ -63,7 +75,7 @@ function initScrollAnimation() {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: '20px' }); // Добавил rootMargin для более ранней анимации
     elements.forEach(el => observer.observe(el));
 }
 
@@ -72,23 +84,30 @@ function initCounter() {
     const counter = document.querySelector('.counter-number');
     if (!counter) return;
     const target = parseInt(counter.getAttribute('data-target'), 10);
+    if (isNaN(target)) return; // Проверка на валидность
+    
     let current = 0;
+    let animationFrame = null;
+    
     const updateCounter = () => {
         const increment = target / 50;
         if (current < target) {
             current = Math.min(current + increment, target);
             counter.textContent = Math.floor(current);
-            setTimeout(updateCounter, 30);
+            animationFrame = setTimeout(updateCounter, 30);
         } else {
             counter.textContent = target;
+            if (animationFrame) clearTimeout(animationFrame);
         }
     };
+    
     const observer = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
             updateCounter();
             observer.disconnect();
         }
-    });
+    }, { threshold: 0.5 }); // Увеличил порог для надежности
+    
     observer.observe(counter);
 }
 
@@ -96,43 +115,82 @@ function initCounter() {
 function initLazyLoading() {
     const images = document.querySelectorAll('img[loading="lazy"]');
     if ('loading' in HTMLImageElement.prototype) {
-        images.forEach(img => img.setAttribute('loading', 'lazy'));
+        images.forEach(img => {
+            // Если есть data-src, используем его
+            if (img.dataset.src) {
+                img.src = img.dataset.src;
+            }
+            img.setAttribute('loading', 'lazy');
+        });
     } else {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-                    img.src = img.dataset.src;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                    }
                     observer.unobserve(img);
                 }
             });
+        }, { rootMargin: '50px' });
+        
+        images.forEach(img => {
+            if (img.dataset.src) {
+                observer.observe(img);
+            }
         });
-        images.forEach(img => observer.observe(img));
     }
 }
 
 // ========== ОТПРАВКА ФОРМЫ В TELEGRAM ==========
+// Безопасная версия: отправка через бэкенд
 function initTelegramForm() {
     const form = document.getElementById('inlineBookingForm');
     if (!form) return;
+    
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const name = form.querySelector('#inlineName').value;
-        const phone = form.querySelector('#inlinePhone').value;
-        const text = `Новая заявка с сайта:\nИмя: ${name}\nТелефон: ${phone}`;
-        const BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';
-        const CHAT_ID = 'ВАШ_CHAT_ID';
-        const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+        
+        const name = form.querySelector('#inlineName')?.value.trim();
+        const phone = form.querySelector('#inlinePhone')?.value.trim();
+        
+        if (!name || !phone) {
+            alert('Пожалуйста, заполните все поля');
+            return;
+        }
+        
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn?.textContent || 'Отправить';
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+        }
+        
         try {
-            await fetch(url, {
+            // ВАЖНО: токен и CHAT_ID должны быть на сервере, а не в клиентском коде!
+            // Пример отправки на ваш бэкенд
+            const response = await fetch('/api/send-message', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+                body: JSON.stringify({ name, phone })
             });
-            alert('Заявка отправлена! Я свяжусь с вами в ближайшее время.');
-            form.reset();
+            
+            if (response.ok) {
+                alert('✅ Заявка отправлена! Я свяжусь с вами в ближайшее время.');
+                form.reset();
+            } else {
+                throw new Error('Server error');
+            }
         } catch (err) {
-            alert('Ошибка отправки. Попробуйте позже или напишите мне в Telegram.');
+            console.error('Form submission error:', err);
+            alert('❌ Ошибка отправки. Попробуйте позже или напишите мне в Telegram.');
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
         }
     });
 }
@@ -140,9 +198,22 @@ function initTelegramForm() {
 // ========== ПОПАП ПРИ ВЫХОДЕ ==========
 function initExitPopup() {
     let popupShown = false;
+    let hasInteracted = false; // Проверка, взаимодействовал ли пользователь с сайтом
+    
+    // Отмечаем, что пользователь взаимодействовал с сайтом
+    const markInteraction = () => {
+        hasInteracted = true;
+        document.removeEventListener('click', markInteraction);
+        document.removeEventListener('scroll', markInteraction);
+    };
+    
+    document.addEventListener('click', markInteraction);
+    document.addEventListener('scroll', markInteraction);
+    
     const showPopup = () => {
         if (popupShown) return;
         popupShown = true;
+        
         const popup = document.createElement('div');
         popup.className = 'exit-popup';
         popup.innerHTML = `
@@ -154,12 +225,32 @@ function initExitPopup() {
             </div>
         `;
         document.body.appendChild(popup);
-        popup.classList.add('active');
-        popup.querySelector('.exit-popup-close').addEventListener('click', () => popup.remove());
-        popup.addEventListener('click', (e) => { if (e.target === popup) popup.remove(); });
+        
+        setTimeout(() => popup.classList.add('active'), 10);
+        
+        const closePopup = () => popup.remove();
+        popup.querySelector('.exit-popup-close').addEventListener('click', closePopup);
+        popup.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
+        
+        // Закрытие по Escape
+        const closeOnEscape = (e) => {
+            if (e.key === 'Escape') {
+                closePopup();
+                document.removeEventListener('keydown', closeOnEscape);
+            }
+        };
+        document.addEventListener('keydown', closeOnEscape);
     };
+    
+    let exitTimer = null;
+    
     document.addEventListener('mouseleave', (e) => {
-        if (e.clientY <= 0) showPopup();
+        // Показываем попап только если курсор ушел вверх и пользователь взаимодействовал с сайтом
+        if (e.clientY <= 0 && hasInteracted && !popupShown) {
+            // Небольшая задержка, чтобы не срабатывало слишком агрессивно
+            if (exitTimer) clearTimeout(exitTimer);
+            exitTimer = setTimeout(showPopup, 100);
+        }
     });
 }
 
@@ -178,9 +269,26 @@ async function fetchData(filename) {
     }
 }
 
+// Универсальная функция загрузки данных с обработкой ошибок
+async function loadPageData(pageType, containerId, dataFile, templateFn) {
+    const container = document.querySelector(containerId);
+    if (!container) return;
+    
+    const data = await fetchData(dataFile);
+    if (data && data.length) {
+        container.innerHTML = data.map(templateFn).join('');
+    } else if (data && typeof data === 'object' && !Array.isArray(data)) {
+        // Если данные - объект (как settings.json)
+        if (templateFn) {
+            container.innerHTML = templateFn(data);
+        }
+    } else {
+        container.innerHTML = '<p>Информация скоро появится.</p>';
+    }
+}
+
 async function loadHomePage() {
     const settings = await fetchData('settings.json');
-    const portfolio = await fetchData('portfolio.json');
     
     const heroTitle = document.querySelector('#heroTitle');
     const heroText = document.querySelector('#heroText');
@@ -196,66 +304,48 @@ async function loadAboutPage() {
     const aboutFull = document.querySelector('#aboutFull');
     if (aboutFull && settings?.aboutFull) {
         aboutFull.innerHTML = settings.aboutFull;
-    } else if (aboutFull) {
-        aboutFull.innerHTML = '<p>Информация о мастере скоро появится.</p>';
     }
 }
 
 async function loadPortfolioPage() {
-    const portfolio = await fetchData('portfolio.json');
-    const grid = document.querySelector('#portfolioGrid');
-    if (grid && portfolio && portfolio.length) {
-        grid.innerHTML = portfolio.map(item => `
-            <div class="work-card" data-lightbox="true">
-                <img src="${item.image}" alt="${item.title}" loading="lazy" data-lightbox="true">
-                <h3>${item.title}</h3>
-                <p>${item.description || ''}</p>
-            </div>
-        `).join('');
-    }
+    await loadPageData('portfolio', '#portfolioGrid', 'portfolio.json', item => `
+        <div class="work-card" data-lightbox="true">
+            <img src="${item.image}" alt="${escapeHtml(item.title)}" loading="lazy" data-lightbox="true">
+            <h3>${escapeHtml(item.title)}</h3>
+            <p>${escapeHtml(item.description || '')}</p>
+        </div>
+    `);
 }
 
 async function loadPricesPage() {
-    const services = await fetchData('services.json');
-    const container = document.querySelector('#servicesList');
-    if (container && services && services.length) {
-        container.innerHTML = services.map(service => `
-            <div class="service-item">
-                <h3>${service.title}</h3>
-                ${service.description ? `<p>${service.description}</p>` : ''}
-                <span class="price">${service.price}</span>
-            </div>
-        `).join('');
-    }
+    await loadPageData('prices', '#servicesList', 'services.json', service => `
+        <div class="service-item">
+            <h3>${escapeHtml(service.title)}</h3>
+            ${service.description ? `<p>${escapeHtml(service.description)}</p>` : ''}
+            <span class="price">${escapeHtml(service.price)}</span>
+        </div>
+    `);
 }
 
 async function loadReviewsPage() {
-    const reviews = await fetchData('reviews.json');
-    const container = document.querySelector('#reviewsList');
-    if (container && reviews && reviews.length) {
-        container.innerHTML = reviews.map(review => `
-            <div class="review-card">
-                ${review.photo ? `<img src="${review.photo}" alt="${review.name}" class="review-photo" loading="lazy">` : ''}
-                <h3>${review.name}</h3>
-                <p>"${review.text}"</p>
-            </div>
-        `).join('');
-    }
+    await loadPageData('reviews', '#reviewsList', 'reviews.json', review => `
+        <div class="review-card">
+            ${review.photo ? `<img src="${review.photo}" alt="${escapeHtml(review.name)}" class="review-photo" loading="lazy">` : ''}
+            <h3>${escapeHtml(review.name)}</h3>
+            <p>"${escapeHtml(review.text)}"</p>
+        </div>
+    `);
 }
 
 async function loadBlogPage() {
-    const blog = await fetchData('blog.json');
-    const container = document.querySelector('#blogList');
-    if (container && blog && blog.length) {
-        container.innerHTML = blog.map(post => `
-            <div class="blog-post">
-                ${post.image ? `<img src="${post.image}" alt="${post.title}" class="blog-image" loading="lazy">` : ''}
-                <h3>${post.title}</h3>
-                <span class="date">${post.date}</span>
-                <div class="blog-body">${post.body}</div>
-            </div>
-        `).join('');
-    }
+    await loadPageData('blog', '#blogList', 'blog.json', post => `
+        <div class="blog-post">
+            ${post.image ? `<img src="${post.image}" alt="${escapeHtml(post.title)}" class="blog-image" loading="lazy">` : ''}
+            <h3>${escapeHtml(post.title)}</h3>
+            <span class="date">${escapeHtml(post.date)}</span>
+            <div class="blog-body">${post.body}</div>
+        </div>
+    `);
 }
 
 async function loadContactsPage() {
@@ -263,12 +353,12 @@ async function loadContactsPage() {
     const container = document.querySelector('#contactsInfo');
     if (container && settings) {
         let html = '';
-        if (settings.phone) html += `<p>📞 ${settings.phone}</p>`;
-        if (settings.email) html += `<p>✉️ ${settings.email}</p>`;
+        if (settings.phone) html += `<p>📞 ${escapeHtml(settings.phone)}</p>`;
+        if (settings.email) html += `<p>✉️ ${escapeHtml(settings.email)}</p>`;
         if (settings.socials) {
             html += '<div class="social-links">';
             for (const [name, url] of Object.entries(settings.socials)) {
-                html += `<a href="${url}" target="_blank">${name}</a> `;
+                html += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a> `;
             }
             html += '</div>';
         }
@@ -281,9 +371,20 @@ async function loadFooterSocials() {
     const container = document.querySelector('#footerSocials');
     if (container && settings?.socials) {
         container.innerHTML = Object.entries(settings.socials).map(([name, url]) => 
-            `<a href="${url}" target="_blank">${name}</a>`
+            `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a>`
         ).join('');
     }
+}
+
+// ========== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ ДЛЯ БЕЗОПАСНОСТИ ==========
+function escapeHtml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
@@ -300,19 +401,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname;
     console.log('Текущая страница:', path);
     
-    if (path === '/' || path === '/index.html') {
-        loadHomePage();
-    } else if (path.includes('about.html')) {
-        loadAboutPage();
-    } else if (path.includes('portfolio.html')) {
-        loadPortfolioPage();
-    } else if (path.includes('prices.html')) {
-        loadPricesPage();
-    } else if (path.includes('reviews.html')) {
-        loadReviewsPage();
-    } else if (path.includes('blog.html')) {
-        loadBlogPage();
-    } else if (path.includes('contact.html')) {
-        loadContactsPage();
+    // Определяем текущую страницу более надежно
+    const pageName = path.split('/').pop() || 'index.html';
+    
+    switch(pageName) {
+        case 'index.html':
+        case '':
+            loadHomePage();
+            break;
+        case 'about.html':
+            loadAboutPage();
+            break;
+        case 'portfolio.html':
+            loadPortfolioPage();
+            break;
+        case 'prices.html':
+            loadPricesPage();
+            break;
+        case 'reviews.html':
+            loadReviewsPage();
+            break;
+        case 'blog.html':
+            loadBlogPage();
+            break;
+        case 'contact.html':
+            loadContactsPage();
+            break;
+        default:
+            console.log('Неизвестная страница:', pageName);
     }
 });
