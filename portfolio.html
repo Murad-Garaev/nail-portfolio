@@ -1,6 +1,63 @@
-<section class="portfolio-page">
-    <div class="container">
-        <h1>Мои работы</h1>
-        <div class="works-grid" id="portfolioGrid"></div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Портфолио | Маникюрная студия</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="container header-flex">
+        <div class="logo">Nail Studio</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">Обо мне</a></li>
+                <li><a href="portfolio.html">Портфолио</a></li>
+                <li><a href="prices.html">Услуги и цены</a></li>
+                <li><a href="reviews.html">Отзывы</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="contact.html">Контакты</a></li>
+            </ul>
+        </nav>
+        <div class="mobile-menu-btn">☰</div>
     </div>
-</section>
+</header>
+
+<main>
+    <section class="portfolio-page">
+        <div class="container">
+            <h1>Мои работы</h1>
+            <p class="portfolio-intro">Здесь собраны мои любимые работы — от нежного френча до яркого нейл-арта. Каждый дизайн создан с душой и вниманием к деталям.</p>
+            
+            <!-- Фильтр по категориям (опционально) -->
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="all">Все работы</button>
+                <button class="filter-btn" data-filter="classic">Классика</button>
+                <button class="filter-btn" data-filter="design">Дизайн</button>
+                <button class="filter-btn" data-filter="french">Френч</button>
+            </div>
+            
+            <!-- Сетка портфолио -->
+            <div id="portfolioGrid" class="works-grid">
+                <!-- Сюда будут загружены работы из portfolio.json -->
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 Маникюрная студия. Все права защищены.</p>
+        <div class="socials" id="footerSocials"></div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
