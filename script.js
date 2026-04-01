@@ -204,7 +204,7 @@ function initSlider() {
 // ========== ЗАГРУЗКА КОНТЕНТА ИЗ JSON ==========
 async function fetchData(filename) {
     try {
-        const res = await fetch(`/content/${filename}`);
+        const res = await fetch(`content/${filename}`);
         if (!res.ok) return null;
         return await res.json();
     } catch (err) {
