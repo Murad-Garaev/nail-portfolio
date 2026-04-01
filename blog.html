@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Обо мне | Маникюрная студия</title>
+    <title>Блог | Маникюрная студия</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -28,10 +30,13 @@
 </header>
 
 <main>
-    <section class="about-page">
+    <section class="blog-page">
         <div class="container">
-            <h1>Обо мне</h1>
-            <div id="aboutFull"></div>
+            <h1>Блог мастера маникюра</h1>
+            <p class="blog-intro">Советы, тренды, новости и секреты красивого маникюра</p>
+            <div id="blogList" class="blog-list">
+                <!-- Сюда будут загружены посты из blog.json -->
+            </div>
         </div>
     </section>
 </main>
