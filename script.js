@@ -236,7 +236,11 @@ async function loadHomePage() {
 
 async function loadAboutPage() {
     const settings = await fetchData('settings.json');
-    document.querySelector('#aboutFull').innerHTML = settings?.aboutFull || '';
+    const aboutFull = document.querySelector('#aboutFull');
+    if (aboutFull && settings?.aboutFull) {
+        aboutFull.innerHTML = settings.aboutFull;
+    } else if (aboutFull) {
+        aboutFull.innerHTML = '<p>Информация о мастере скоро появится.</p>';
 }
 
 async function loadPortfolioPage() {
