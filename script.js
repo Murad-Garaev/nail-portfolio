@@ -344,3 +344,53 @@ document.addEventListener('DOMContentLoaded', () => {
     else if (path.includes('blog.html')) loadBlogPage();
     else if (path.includes('contact.html')) loadContactsPage();
 });
+
+// Загрузка JSON
+async function fetchData(filename) {
+    try {
+        const res = await fetch(`/content/${filename}`);
+        if (!res.ok) {
+            console.warn(`Ошибка загрузки ${filename}: ${res.status}`);
+            return null;
+        }
+        return await res.json();
+    } catch (err) {
+        console.warn(`Не удалось загрузить ${filename}`, err);
+        return null;
+    }
+}
+
+// Загрузка страницы "Обо мне"
+async function loadAboutPage() {
+    const settings = await fetchData('settings.json');
+    const aboutFull = document.querySelector('#aboutFull');
+    if (aboutFull && settings && settings.aboutFull) {
+        aboutFull.innerHTML = settings.aboutFull;
+    } else if (aboutFull) {
+        aboutFull.innerHTML = '<p>Информация о мастере скоро появится.</p>';
+    } else {
+        console.warn('Элемент #aboutFull не найден на странице');
+    }
+}
+
+// Инициализация в зависимости от страницы
+document.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
+    console.log('Текущая страница:', path);
+    
+    if (path === '/' || path === '/index.html') {
+        loadHomePage();
+    } else if (path.includes('about.html')) {
+        loadAboutPage();
+    } else if (path.includes('portfolio.html')) {
+        loadPortfolioPage();
+    } else if (path.includes('prices.html')) {
+        loadPricesPage();
+    } else if (path.includes('reviews.html')) {
+        loadReviewsPage();
+    } else if (path.includes('blog.html')) {
+        loadBlogPage();
+    } else if (path.includes('contact.html')) {
+        loadContactsPage();
+    }
+});
