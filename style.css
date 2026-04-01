@@ -898,7 +898,7 @@ nav a:hover {
     align-items: center;
     gap: 16px;
     z-index: 1000;
-    pointer-events: none; /* чтобы контейнер не мешал нажатиям */
+    pointer-events: none;
 }
 
 .floating-btn {
@@ -922,8 +922,9 @@ nav a:hover {
     text-align: center;
 }
 
-/* Круглая кнопка звонка */
-.floating-btn--call {
+/* Круглые кнопки (звонок и VK) */
+.floating-btn--call,
+.floating-btn--vk {
     width: 52px;
     height: 52px;
     border-radius: 50%;
@@ -931,8 +932,6 @@ nav a:hover {
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    background: linear-gradient(135deg, #f8c9c9, #f5cfc1);
-    color: #6b4e3a;
 }
 
 .floating-btn:hover {
@@ -941,7 +940,7 @@ nav a:hover {
     filter: brightness(0.98);
 }
 
-/* Адаптив: на десктопах можно убрать или оставить, но обычно для мобильных */
+/* Адаптив: на десктопе кнопки в правом углу */
 @media (min-width: 769px) {
     .floating-buttons {
         bottom: 30px;
@@ -955,25 +954,4 @@ nav a:hover {
         font-size: 0.9rem;
         min-width: auto;
     }
-}
-
-/* Круглая кнопка VK */
-.floating-btn--vk {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    background: linear-gradient(135deg, #f8c9c9, #f5cfc1);
-    color: #6b4e3a;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.floating-btn--vk:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-    filter: brightness(0.98);
 }
