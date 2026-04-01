@@ -1,9 +1,84 @@
-<section class="contacts-page">
-    <div class="container">
-        <h1>Контакты</h1>
-        <div id="contactsInfo"></div>
-        <div class="booking-button">
-            <a href="https://ваша-ссылка-на-запись.ru" class="btn-primary" target="_blank">Записаться онлайн</a>
-        </div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Контакты | Маникюрная студия</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <div class="container header-flex">
+        <div class="logo">Nail Studio</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="about.html">Обо мне</a></li>
+                <li><a href="portfolio.html">Портфолио</a></li>
+                <li><a href="prices.html">Услуги и цены</a></li>
+                <li><a href="reviews.html">Отзывы</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="contact.html">Контакты</a></li>
+            </ul>
+        </nav>
+        <div class="mobile-menu-btn">☰</div>
     </div>
-</section>
+</header>
+
+<main>
+    <section class="contacts-page">
+        <div class="container">
+            <h1>Свяжитесь со мной</h1>
+            
+            <!-- Блок с контактной информацией (подгружается из settings.json) -->
+            <div id="contactsInfo" class="contacts-info">
+                <!-- Сюда подтянутся телефон, email и соцсети -->
+            </div>
+
+            <!-- Дополнительный блок с адресом и графиком работы (можно добавить вручную) -->
+            <div class="work-info">
+                <h3>📍 Как меня найти</h3>
+                <p>г. Москва, студия на ул. Цветочная, 15</p>
+                <p>🚇 м. Проспект Мира, выход №3, 5 минут пешком</p>
+                
+                <h3>🕒 Часы работы</h3>
+                <p>Понедельник – Пятница: 10:00 – 20:00</p>
+                <p>Суббота: 11:00 – 18:00</p>
+                <p>Воскресенье: выходной</p>
+            </div>
+
+            <!-- Встроенная форма записи -->
+            <div class="booking-section">
+                <h2>Записаться онлайн</h2>
+                <form id="inlineBookingForm" class="booking-form">
+                    <div class="form-group">
+                        <input type="text" id="inlineName" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="inlinePhone" placeholder="Телефон" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="inlineMessage" rows="3" placeholder="Ваш вопрос или пожелания (необязательно)"></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Отправить заявку</button>
+                    <p class="form-note">Я отвечу вам в течение часа</p>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 Маникюрная студия. Все права защищены.</p>
+        <div class="socials" id="footerSocials"></div>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
