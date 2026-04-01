@@ -98,7 +98,6 @@ function initLazyLoading() {
     if ('loading' in HTMLImageElement.prototype) {
         images.forEach(img => img.setAttribute('loading', 'lazy'));
     } else {
-        // Fallback для старых браузеров
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -121,7 +120,6 @@ function initTelegramForm() {
         const name = form.querySelector('#inlineName').value;
         const phone = form.querySelector('#inlinePhone').value;
         const text = `Новая заявка с сайта:\nИмя: ${name}\nТелефон: ${phone}`;
-        // Вставьте сюда свой токен бота и chat_id
         const BOT_TOKEN = 'ВАШ_ТОКЕН_БОТА';
         const CHAT_ID = 'ВАШ_CHAT_ID';
         const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
@@ -165,50 +163,17 @@ function initExitPopup() {
     });
 }
 
-// ========== СЛАЙДЕР (карусель) ==========
-function initSlider() {
-    const container = document.querySelector('.slider-container');
-    if (!container) return;
-    let current = 0;
-    const slides = container.querySelectorAll('.slider-slide');
-    const total = slides.length;
-    const nextBtn = container.querySelector('.slider-next');
-    const prevBtn = container.querySelector('.slider-prev');
-    const dotsContainer = container.querySelector('.slider-dots');
-    
-    function updateSlider() {
-        const offset = -current * 100;
-        container.querySelector('.slider-track').style.transform = `translateX(${offset}%)`;
-        dotsContainer.querySelectorAll('.dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === current);
-        });
-    }
-    function next() { current = (current + 1) % total; updateSlider(); }
-    function prev() { current = (current - 1 + total) % total; updateSlider(); }
-    
-    if (nextBtn) nextBtn.addEventListener('click', next);
-    if (prevBtn) prevBtn.addEventListener('click', prev);
-    
-    for (let i = 0; i < total; i++) {
-        const dot = document.createElement('span');
-        dot.className = 'dot' + (i === current ? ' active' : '');
-        dot.addEventListener('click', () => { current = i; updateSlider(); });
-        dotsContainer.appendChild(dot);
-    }
-    
-    let interval = setInterval(next, 5000);
-    container.addEventListener('mouseenter', () => clearInterval(interval));
-    container.addEventListener('mouseleave', () => { interval = setInterval(next, 5000); });
-}
-
 // ========== ЗАГРУЗКА КОНТЕНТА ИЗ JSON ==========
 async function fetchData(filename) {
     try {
         const res = await fetch(`content/${filename}`);
-        if (!res.ok) return null;
+        if (!res.ok) {
+            console.warn(`Ошибка загрузки ${filename}: ${res.status}`);
+            return null;
+        }
         return await res.json();
     } catch (err) {
-        console.warn(`Не удалось загрузить ${filename}`);
+        console.warn(`Не удалось загрузить ${filename}`, err);
         return null;
     }
 }
@@ -217,21 +182,13 @@ async function loadHomePage() {
     const settings = await fetchData('settings.json');
     const portfolio = await fetchData('portfolio.json');
     
-    document.querySelector('#heroTitle').textContent = settings?.heroTitle || 'Создаю красоту на ваших руках';
-    document.querySelector('#heroText').textContent = settings?.heroText || 'Маникюр, педикюр, дизайн – с любовью к деталям';
-    document.querySelector('#shortAbout').innerHTML = `<p>${settings?.aboutShort || ''}</p>`;
+    const heroTitle = document.querySelector('#heroTitle');
+    const heroText = document.querySelector('#heroText');
+    const shortAbout = document.querySelector('#shortAbout');
     
-    const sliderTrack = document.querySelector('.slider-track');
-    if (sliderTrack && portfolio?.length) {
-        sliderTrack.innerHTML = portfolio.slice(-5).reverse().map(item => `
-            <div class="slider-slide">
-                <img src="/${item.image}" alt="${item.title}" loading="lazy" data-lightbox="true">
-                <h3>${item.title}</h3>
-                <p>${item.description || ''}</p>
-            </div>
-        `).join('');
-        initSlider();
-    }
+    if (heroTitle && settings?.heroTitle) heroTitle.textContent = settings.heroTitle;
+    if (heroText && settings?.heroText) heroText.textContent = settings.heroText;
+    if (shortAbout && settings?.aboutShort) shortAbout.innerHTML = `<p>${settings.aboutShort}</p>`;
 }
 
 async function loadAboutPage() {
@@ -241,15 +198,16 @@ async function loadAboutPage() {
         aboutFull.innerHTML = settings.aboutFull;
     } else if (aboutFull) {
         aboutFull.innerHTML = '<p>Информация о мастере скоро появится.</p>';
+    }
 }
 
 async function loadPortfolioPage() {
     const portfolio = await fetchData('portfolio.json');
     const grid = document.querySelector('#portfolioGrid');
-    if (grid && portfolio?.length) {
+    if (grid && portfolio && portfolio.length) {
         grid.innerHTML = portfolio.map(item => `
             <div class="work-card" data-lightbox="true">
-                <img src="/${item.image}" alt="${item.title}" loading="lazy" data-lightbox="true">
+                <img src="${item.image}" alt="${item.title}" loading="lazy" data-lightbox="true">
                 <h3>${item.title}</h3>
                 <p>${item.description || ''}</p>
             </div>
@@ -260,7 +218,7 @@ async function loadPortfolioPage() {
 async function loadPricesPage() {
     const services = await fetchData('services.json');
     const container = document.querySelector('#servicesList');
-    if (container && services?.length) {
+    if (container && services && services.length) {
         container.innerHTML = services.map(service => `
             <div class="service-item">
                 <h3>${service.title}</h3>
@@ -274,10 +232,10 @@ async function loadPricesPage() {
 async function loadReviewsPage() {
     const reviews = await fetchData('reviews.json');
     const container = document.querySelector('#reviewsList');
-    if (container && reviews?.length) {
+    if (container && reviews && reviews.length) {
         container.innerHTML = reviews.map(review => `
             <div class="review-card">
-                ${review.photo ? `<img src="/${review.photo}" alt="${review.name}" class="review-photo" loading="lazy">` : ''}
+                ${review.photo ? `<img src="${review.photo}" alt="${review.name}" class="review-photo" loading="lazy">` : ''}
                 <h3>${review.name}</h3>
                 <p>"${review.text}"</p>
             </div>
@@ -288,10 +246,10 @@ async function loadReviewsPage() {
 async function loadBlogPage() {
     const blog = await fetchData('blog.json');
     const container = document.querySelector('#blogList');
-    if (container && blog?.length) {
+    if (container && blog && blog.length) {
         container.innerHTML = blog.map(post => `
             <div class="blog-post">
-                ${post.image ? `<img src="/${post.image}" alt="${post.title}" class="blog-image" loading="lazy">` : ''}
+                ${post.image ? `<img src="${post.image}" alt="${post.title}" class="blog-image" loading="lazy">` : ''}
                 <h3>${post.title}</h3>
                 <span class="date">${post.date}</span>
                 <div class="blog-body">${post.body}</div>
@@ -340,11 +298,21 @@ document.addEventListener('DOMContentLoaded', () => {
     loadFooterSocials();
     
     const path = window.location.pathname;
-    if (path === '/' || path === '/index.html') loadHomePage();
-    else if (path.includes('about.html')) loadAboutPage();
-    else if (path.includes('portfolio.html')) loadPortfolioPage();
-    else if (path.includes('prices.html')) loadPricesPage();
-    else if (path.includes('reviews.html')) loadReviewsPage();
-    else if (path.includes('blog.html')) loadBlogPage();
-    else if (path.includes('contact.html')) loadContactsPage();
+    console.log('Текущая страница:', path);
+    
+    if (path === '/' || path === '/index.html') {
+        loadHomePage();
+    } else if (path.includes('about.html')) {
+        loadAboutPage();
+    } else if (path.includes('portfolio.html')) {
+        loadPortfolioPage();
+    } else if (path.includes('prices.html')) {
+        loadPricesPage();
+    } else if (path.includes('reviews.html')) {
+        loadReviewsPage();
+    } else if (path.includes('blog.html')) {
+        loadBlogPage();
+    } else if (path.includes('contact.html')) {
+        loadContactsPage();
+    }
 });
