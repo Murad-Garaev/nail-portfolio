@@ -1,0 +1,9 @@
+{
+    "images": [
+        { "src": "images/work1.jpg" },
+        { "src": "images/work2.jpg" },
+        { "src": "images/work3.jpg" },
+        { "src": "images/work4.jpg" },
+        { "src": "images/work5.jpg" }
+    ]
+}
