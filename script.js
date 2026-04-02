@@ -432,97 +432,119 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ========== КАРУСЕЛЬ НА ПОДИУМЕ ==========
-function initPodiumCarousel(images) {
-    const track = document.querySelector('.carousel-track');
-    const prevBtn = document.querySelector('.prev');
-    const nextBtn = document.querySelector('.next');
-    const indicatorsContainer = document.querySelector('.carousel-indicators');
+// ========== ГОЛОГРАФИЧЕСКИЙ ПОДИУМ ==========
+let galleryImages = [];
+let currentIndex = 0;
+let isAnimating = false;
+
+// Загрузка фотографий из JSON
+async function loadGallery() {
+    try {
+        const response = await fetch('content/gallery.json');
+        if (!response.ok) throw new Error('Файл gallery.json не найден');
+        const data = await response.json();
+        galleryImages = data.images; // ожидается массив { src: "path.jpg" }
+        if (galleryImages.length) {
+            updateCounter();
+            await showPhoto(currentIndex, true); // первое фото без анимации
+        }
+    } catch (err) {
+        console.warn('Ошибка загрузки галереи:', err);
+        // Фото по умолчанию, если JSON нет
+        galleryImages = [
+            { src: 'images/work1.jpg' },
+            { src: 'images/work2.jpg' },
+            { src: 'images/work3.jpg' }
+        ];
+        updateCounter();
+        showPhoto(currentIndex, true);
+    }
+}
+
+function updateCounter() {
+    const counter = document.getElementById('photoCounter');
+    if (counter) {
+        counter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+    }
+}
+
+// Создание пучков света (голограмма)
+function createLightBeams() {
+    const container = document.getElementById('lightBeams');
+    if (!container) return;
+    container.innerHTML = '';
+    const beamCount = 12;
+    for (let i = 0; i < beamCount; i++) {
+        const beam = document.createElement('div');
+        beam.classList.add('beam');
+        const angle = (i / beamCount) * 360;
+        beam.style.transform = `rotate(${angle}deg) translateX(-50%)`;
+        beam.style.left = '50%';
+        beam.style.bottom = '0';
+        container.appendChild(beam);
+    }
+}
+
+// Анимация голограммы и смена фото
+async function showPhoto(index, skipAnimation = false) {
+    if (isAnimating && !skipAnimation) return;
+    if (index < 0) index = galleryImages.length - 1;
+    if (index >= galleryImages.length) index = 0;
+    if (index === currentIndex && !skipAnimation) return;
+
+    isAnimating = true;
+    const img = document.getElementById('hologramImage');
+    const beamsContainer = document.getElementById('lightBeams');
     
-    if (!track) return;
+    if (!skipAnimation) {
+        // Запускаем пучки света
+        createLightBeams();
+        beamsContainer.style.opacity = '1';
+        // Прячем текущее фото
+        img.style.opacity = '0';
+        // Ждём 0.2с, затем начинаем анимацию лучей (они сами длятся 2с)
+        await new Promise(r => setTimeout(r, 200));
+    }
     
-    let currentIndex = 0;
-    const slides = [];
+    // Меняем src фото после короткой задержки
+    setTimeout(() => {
+        img.src = galleryImages[index].src;
+        // Плавно проявляем фото
+        img.style.transition = 'opacity 0.8s ease';
+        img.style.opacity = '1';
+    }, skipAnimation ? 0 : 500);
     
-    // Создаём слайды
-    images.forEach((src, idx) => {
-        const slide = document.createElement('div');
-        slide.classList.add('carousel-slide');
-        const img = document.createElement('img');
-        img.src = src;
-        img.alt = `Работа ${idx + 1}`;
-        img.loading = 'lazy';
-        slide.appendChild(img);
-        track.appendChild(slide);
-        slides.push(slide);
-        
-        // Индикатор
-        const indicator = document.createElement('div');
-        indicator.classList.add('indicator');
-        if (idx === 0) indicator.classList.add('active');
-        indicator.addEventListener('click', () => goToSlide(idx));
-        indicatorsContainer.appendChild(indicator);
-    });
+    if (!skipAnimation) {
+        // Ждём окончания анимации лучей (2с)
+        await new Promise(r => setTimeout(r, 2000));
+        beamsContainer.style.opacity = '0';
+    }
     
-    const indicators = document.querySelectorAll('.indicator');
+    currentIndex = index;
+    updateCounter();
+    isAnimating = false;
+}
+
+// Обработчики кнопок
+function initPodium() {
+    const prevBtn = document.getElementById('prevPhoto');
+    const nextBtn = document.getElementById('nextPhoto');
     
-    function updateCarousel() {
-        const slideWidth = slides[0].clientWidth;
-        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-        indicators.forEach((ind, i) => {
-            if (i === currentIndex) ind.classList.add('active');
-            else ind.classList.remove('active');
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (!isAnimating) showPhoto(currentIndex - 1);
+        });
+    }
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (!isAnimating) showPhoto(currentIndex + 1);
         });
     }
     
-    function goToSlide(index) {
-        if (index < 0) index = slides.length - 1;
-        if (index >= slides.length) index = 0;
-        currentIndex = index;
-        updateCarousel();
-    }
-    
-    function nextSlide() {
-        goToSlide(currentIndex + 1);
-    }
-    
-    function prevSlide() {
-        goToSlide(currentIndex - 1);
-    }
-    
-    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
-    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
-    
-    window.addEventListener('resize', () => updateCarousel());
-    updateCarousel();
-    
-    // Добавляем круговую анимацию при смене (дополнительный эффект вращения)
-    const podium = document.querySelector('.podium');
-    function addRotationEffect() {
-        if (podium) {
-            podium.style.transition = 'transform 0.3s';
-            podium.style.transform = 'rotate(5deg)';
-            setTimeout(() => {
-                podium.style.transform = 'rotate(0deg)';
-            }, 150);
-        }
-    }
-    
-    // Перехватываем клики, чтобы добавить эффект на подиум
-    if (prevBtn) prevBtn.addEventListener('click', addRotationEffect);
-    if (nextBtn) nextBtn.addEventListener('click', addRotationEffect);
+    loadGallery();
 }
 
-// Загружаем фотографии (укажите свои пути)
-const worksImages = [
-    'images/work1.jpg',
-    'images/work2.jpg',
-    'images/work3.jpg',
-    'images/work4.jpg',
-    'images/work5.jpg'
-];
-
-// Вызываем функцию после загрузки DOM
+// Запуск после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
-    initPodiumCarousel(worksImages);
+    initPodium();
 });
