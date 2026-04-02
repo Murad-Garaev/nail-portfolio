@@ -1284,3 +1284,53 @@ nav a:hover {
         bottom: -20px;
     }
 }
+
+/* ========== ЭФФЕКТ ВЕРТИКАЛЬНОЙ РАМКИ (СТОИТ НА ПОДИУМЕ) ========== */
+.carousel-slide {
+    position: relative;
+    perspective: 600px;
+    transform-style: preserve-3d;
+}
+
+.carousel-slide img {
+    display: block;
+    width: 70%;
+    max-width: 260px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 
+        0 15px 25px -10px rgba(0, 0, 0, 0.5),   /* тень вниз (на подиум) */
+        0 0 0 5px rgba(255, 255, 255, 0.15),    /* светлая окантовка */
+        0 0 0 8px rgba(0, 0, 0, 0.3);           /* тёмная рамка (толщина) */
+    transform: rotateX(15deg) rotateY(0deg);    /* небольшой наклон назад */
+    transform-origin: bottom center;
+    transition: all 0.3s;
+}
+
+/* Имитация тени от рамки на подиуме (под фото) */
+.carousel-slide::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    width: 80%;
+    height: 20px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.6), transparent);
+    transform: translateX(-50%) rotateX(0deg);
+    filter: blur(8px);
+    border-radius: 50%;
+    z-index: -1;
+}
+
+/* При наведении можно усилить эффект */
+.carousel-slide:hover img {
+    transform: rotateX(10deg) translateY(-5px);
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(255,255,255,0.2), 0 0 0 8px rgba(0,0,0,0.4);
+}
+
+.carousel-slide:hover::before {
+    bottom: -20px;
+    width: 85%;
+    filter: blur(10px);
+}
