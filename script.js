@@ -431,3 +431,98 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Неизвестная страница:', pageName);
     }
 });
+
+// ========== КАРУСЕЛЬ НА ПОДИУМЕ ==========
+function initPodiumCarousel(images) {
+    const track = document.querySelector('.carousel-track');
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    const indicatorsContainer = document.querySelector('.carousel-indicators');
+    
+    if (!track) return;
+    
+    let currentIndex = 0;
+    const slides = [];
+    
+    // Создаём слайды
+    images.forEach((src, idx) => {
+        const slide = document.createElement('div');
+        slide.classList.add('carousel-slide');
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Работа ${idx + 1}`;
+        img.loading = 'lazy';
+        slide.appendChild(img);
+        track.appendChild(slide);
+        slides.push(slide);
+        
+        // Индикатор
+        const indicator = document.createElement('div');
+        indicator.classList.add('indicator');
+        if (idx === 0) indicator.classList.add('active');
+        indicator.addEventListener('click', () => goToSlide(idx));
+        indicatorsContainer.appendChild(indicator);
+    });
+    
+    const indicators = document.querySelectorAll('.indicator');
+    
+    function updateCarousel() {
+        const slideWidth = slides[0].clientWidth;
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        indicators.forEach((ind, i) => {
+            if (i === currentIndex) ind.classList.add('active');
+            else ind.classList.remove('active');
+        });
+    }
+    
+    function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+        currentIndex = index;
+        updateCarousel();
+    }
+    
+    function nextSlide() {
+        goToSlide(currentIndex + 1);
+    }
+    
+    function prevSlide() {
+        goToSlide(currentIndex - 1);
+    }
+    
+    if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+    if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+    
+    window.addEventListener('resize', () => updateCarousel());
+    updateCarousel();
+    
+    // Добавляем круговую анимацию при смене (дополнительный эффект вращения)
+    const podium = document.querySelector('.podium');
+    function addRotationEffect() {
+        if (podium) {
+            podium.style.transition = 'transform 0.3s';
+            podium.style.transform = 'rotate(5deg)';
+            setTimeout(() => {
+                podium.style.transform = 'rotate(0deg)';
+            }, 150);
+        }
+    }
+    
+    // Перехватываем клики, чтобы добавить эффект на подиум
+    if (prevBtn) prevBtn.addEventListener('click', addRotationEffect);
+    if (nextBtn) nextBtn.addEventListener('click', addRotationEffect);
+}
+
+// Загружаем фотографии (укажите свои пути)
+const worksImages = [
+    'images/work1.jpg',
+    'images/work2.jpg',
+    'images/work3.jpg',
+    'images/work4.jpg',
+    'images/work5.jpg'
+];
+
+// Вызываем функцию после загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+    initPodiumCarousel(worksImages);
+});
