@@ -981,7 +981,7 @@ nav a:hover {
     }
 }
 
-/* ========== ЛАКОВЫЙ ТЕКСТ С АНИМАЦИЕЙ ========== */
+/* ========== ТЕКУЧИЙ ЛАК (ПЛАВЛЕНИЕ, ДЕФОРМАЦИЯ) ========== */
 .nail-liquid, .nail-liquid-hero {
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
@@ -990,112 +990,88 @@ nav a:hover {
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    position: relative;
     display: inline-block;
-    animation: shimmer 1.5s ease infinite, liquidMove 3s ease-in-out infinite;
-    text-shadow: 0 0 10px rgba(255,215,0,0.3);
+    animation: 
+        shimmer 2s ease infinite,
+        melt 4s ease-in-out infinite;
+    transform-origin: center;
+    filter: drop-shadow(0 0 8px rgba(255,215,0,0.4));
 }
 
-/* Блик */
-.nail-liquid::before, .nail-liquid-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -150%;
-    width: 150%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
-    animation: shine 2.5s infinite;
-    pointer-events: none;
+/* Герой можно сделать чуть крупнее и с более сильной деформацией */
+.nail-liquid-hero {
+    animation: 
+        shimmer 2s ease infinite,
+        melt-strong 5s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px rgba(255,215,0,0.5));
 }
 
-/* Капли */
-.nail-liquid::after, .nail-liquid-hero::after {
-    content: '💧';
-    position: absolute;
-    bottom: -20px;
-    left: 15%;
-    font-size: 1.2rem;
-    opacity: 0;
-    animation: drip 2s ease-in-out infinite;
-    filter: drop-shadow(0 0 2px gold);
-}
-
-/* Дополнительные капли для героя (более крупно) */
-.nail-liquid-hero::after {
-    left: 30%;
-    animation-delay: 0.8s;
-    font-size: 1.6rem;
-}
-
-/* Третья капля (только для героя) */
-.nail-liquid-hero::before {
-    /* используем before для второй капли */
-    content: '💧';
-    position: absolute;
-    bottom: -25px;
-    left: 70%;
-    font-size: 1.4rem;
-    opacity: 0;
-    animation: drip 2.4s ease-in-out infinite 1.2s;
-    filter: drop-shadow(0 0 2px gold);
-    background: none;
-    z-index: 1;
-}
-
-/* Анимации */
+/* Переливы цвета */
 @keyframes shimmer {
-    0% { background-position: 0% 50%; text-shadow: 0 0 5px rgba(255,215,0,0.2); }
-    50% { background-position: 100% 50%; text-shadow: 0 0 20px rgba(255,215,0,0.6); }
-    100% { background-position: 0% 50%; text-shadow: 0 0 5px rgba(255,215,0,0.2); }
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
-@keyframes shine {
-    0% { left: -150%; opacity: 0; }
-    50% { opacity: 1; }
-    100% { left: 150%; opacity: 0; }
-}
-
-@keyframes drip {
-    0% {
-        opacity: 0;
-        transform: translateY(0) scale(0.6);
-    }
-    20% {
-        opacity: 0.9;
-        transform: translateY(10px) scale(1);
-    }
-    80% {
-        opacity: 0.9;
-        transform: translateY(30px) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(50px) scale(0.6);
-    }
-}
-
-@keyframes liquidMove {
+/* Плавление — буквы «стекают» вниз и расширяются */
+@keyframes melt {
     0% {
         letter-spacing: 0px;
-        transform: skew(0deg);
+        transform: scaleY(1) skew(0deg);
+        text-shadow: 0 0 0 rgba(255,215,0,0);
     }
     50% {
-        letter-spacing: 2px;
-        transform: skew(1deg);
+        letter-spacing: 4px;
+        transform: scaleY(0.92) skew(2deg);
+        text-shadow: 0 8px 12px rgba(255,215,0,0.3);
     }
     100% {
         letter-spacing: 0px;
-        transform: skew(0deg);
+        transform: scaleY(1) skew(0deg);
+        text-shadow: 0 0 0 rgba(255,215,0,0);
     }
 }
 
-/* Адаптив для мобильных (немного уменьшаем капли) */
-@media (max-width: 768px) {
-    .nail-liquid::after, .nail-liquid-hero::after {
-        font-size: 1rem;
+/* Более сильное плавление для героя */
+@keyframes melt-strong {
+    0% {
+        letter-spacing: 0px;
+        transform: scaleY(1) skew(0deg) translateY(0);
+        text-shadow: 0 0 0 rgba(255,215,0,0);
     }
-    .nail-liquid-hero::before {
-        font-size: 1rem;
+    50% {
+        letter-spacing: 6px;
+        transform: scaleY(0.85) skew(3deg) translateY(8px);
+        text-shadow: 0 15px 20px rgba(255,215,0,0.4);
     }
+    100% {
+        letter-spacing: 0px;
+        transform: scaleY(1) skew(0deg) translateY(0);
+        text-shadow: 0 0 0 rgba(255,215,0,0);
+    }
+}
+
+/* Добавляем эффект «растекания» по краям через псевдоэлемент (необязательно) */
+.nail-liquid::before, .nail-liquid-hero::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: blur(4px);
+    opacity: 0;
+    animation: blurFlow 4s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+@keyframes blurFlow {
+    0% { opacity: 0; filter: blur(4px); transform: translateY(0); }
+    50% { opacity: 0.6; filter: blur(8px); transform: translateY(10px); }
+    100% { opacity: 0; filter: blur(4px); transform: translateY(0); }
 }
