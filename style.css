@@ -1209,30 +1209,48 @@ nav a:hover {
     filter: drop-shadow(0 0 8px cyan);
 }
 
-/* ПУЧКИ СВЕТА (ГОЛОГРАММА) */
-.light-beams {
+/* ========== РАССЕЯННОЕ СВЕЧЕНИЕ (ТУМАН + ЧАСТИЦЫ) ========== */
+.glow-mist {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.15), rgba(0, 255, 255, 0) 70%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 5;
+    filter: blur(20px);
+}
+
+.glow-particles {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 5;
+    z-index: 6;
     opacity: 0;
     transition: opacity 0.2s;
 }
 
-.beam {
+.particle {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 4px;
-    height: 0;
-    background: linear-gradient(to top, cyan, rgba(0,255,255,0));
-    transform-origin: bottom center;
-    border-radius: 2px;
+    background: radial-gradient(circle, cyan, rgba(0,255,255,0));
+    border-radius: 50%;
     filter: blur(2px);
-    animation: beamGrow 2s ease-out forwards;
+    opacity: 0.7;
+    animation: floatParticle 3s ease-in-out infinite;
+}
+
+@keyframes floatParticle {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+    50% { transform: translate(10px, -15px) scale(1.2); opacity: 0.9; }
+    100% { transform: translate(-5px, 5px) scale(1); opacity: 0.6; }
 }
 
 @keyframes beamGrow {
