@@ -910,7 +910,7 @@ nav a:hover {
     text-decoration: none;
     transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     backdrop-filter: blur(4px);        /* минимальное размытие */
-    background: transparent;           /* полностью прозрачный фон */
+    background: linear-gradient(135deg, #b2dfdb, #80cbc4); /* бирюзовый градиент */
     color: #6b4e3a;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
     
