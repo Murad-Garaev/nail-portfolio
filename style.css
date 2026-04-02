@@ -1116,3 +1116,152 @@ nav a:hover {
     border-radius: 48px;        /* закругление углов секции */
     margin: 2rem 0;             /* отступы, чтобы секция не прилипала к краям */
 }
+
+/* ========== ПОДИУМ (КРУГЛАЯ ПЛАТФОРМА) ========== */
+.podium-section {
+    position: relative;
+    background: radial-gradient(circle at center, #1a1a1a, #0a0a0a);
+    padding: 80px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.podium-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    max-width: 90vw;
+    max-height: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Круглый матовый подиум */
+.podium {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #222;
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    z-index: 0;
+}
+
+/* Карусель поверх подиума */
+.podium-carousel {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+}
+
+.carousel-track-container {
+    flex: 1;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+/* Карточка фото (круглое, небольшое) */
+.carousel-slide {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-slide img {
+    width: 80%;
+    max-width: 280px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.3s;
+}
+
+.carousel-slide img:hover {
+    transform: scale(1.02);
+}
+
+/* Кнопки перелистывания */
+.carousel-btn {
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.05);
+}
+
+/* Индикаторы */
+.carousel-indicators {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 2;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.indicator.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 768px) {
+    .podium-container {
+        width: 320px;
+        height: 320px;
+    }
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+    }
+    .carousel-slide img {
+        width: 70%;
+    }
+}
