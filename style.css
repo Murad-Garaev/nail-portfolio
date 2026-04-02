@@ -887,7 +887,7 @@ nav a:hover {
     }
 }
 
-/* ========== ПЛАВАЮЩИЕ КНОПКИ (ЖИДКОЕ СТЕКЛО) ========== */
+/* ========== ПЛАВАЮЩИЕ КНОПКИ (ПРОЗРАЧНОЕ СТЕКЛО) ========== */
 .floating-buttons {
     position: fixed;
     bottom: 20px;
@@ -910,7 +910,7 @@ nav a:hover {
     text-decoration: none;
     transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     backdrop-filter: blur(12px);
-    background: rgba(248, 201, 201, 0.3);  /* полупрозрачный розовый */
+    background: transparent;           /* полностью прозрачный фон */
     box-shadow: 
         0 8px 20px rgba(0, 0, 0, 0.15),
         inset 0 1px 0 rgba(255, 255, 255, 0.5),
@@ -925,8 +925,7 @@ nav a:hover {
     font-size: 1rem;
     min-width: 160px;
     text-align: center;
-    backdrop-filter: blur(12px);
-    background: rgba(248, 201, 201, 0.35);
+    background: transparent;
 }
 
 /* Круглые кнопки (звонок и VK) */
@@ -939,18 +938,17 @@ nav a:hover {
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    backdrop-filter: blur(12px);
-    background: rgba(248, 201, 201, 0.35);
+    background: transparent;
 }
 
-/* Анимация при наведении (лёгкое увеличение и свечение) */
+/* Анимация при наведении (лёгкое увеличение и усиление свечения) */
 .floating-btn:hover {
     transform: translateY(-2px);
-    background: rgba(248, 201, 201, 0.5);
     box-shadow: 
         0 12px 28px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.6),
         0 0 0 1px rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(16px);
 }
 
 /* Анимация при нажатии (актив) */
@@ -958,7 +956,6 @@ nav a:hover {
     transform: scale(0.96);
     transition: transform 0.05s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     backdrop-filter: blur(8px);
-    background: rgba(248, 201, 201, 0.6);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
