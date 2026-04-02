@@ -1143,3 +1143,10 @@ nav a:hover {
         100% { transform: translateX(15px); }
     }
 }
+.moving-cards {
+    padding: 4rem 0;
+    background: #f2eaff;
+    overflow-x: hidden;
+    border-radius: 48px;        /* закругление углов секции */
+    margin: 2rem 0;             /* отступы, чтобы секция не прилипала к краям */
+}
