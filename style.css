@@ -997,28 +997,34 @@ nav a:hover {
 /* ========== ГЕРОЙ С ВИДЕОФОНОМ ========== */
 .hero {
     position: relative;
+    overflow: hidden;
     padding: 100px 0;
     text-align: center;
-    background: #f2eaff; /* запасной фон, если видео не загрузится */
+    background: #f2eaff;
 }
 
 .hero-video {
-    position: relative;
-    width: 80%;          /* ширина относительно родителя */
-    max-width: 800px;    /* максимальная ширина */
-    margin: 0 auto;      /* центрирование */
-    display: block;
-    border-radius: 32px; /* скругление углов */
-    box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* видео покрывает весь блок героя, но не выходит за него */
     z-index: 0;
 }
 
 .hero-overlay {
-    display: none; /* затемнение не нужно, так как видео не фон */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
 }
 
 .hero .container {
     position: relative;
     z-index: 2;
-    margin-top: 2rem;
+    color: white;
 }
