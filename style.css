@@ -1004,8 +1004,8 @@ nav a:hover {
 
 .hero-video {
     position: absolute;
-    top: 10%;
-    left: 50%;
+    top: 0%;
+    left: 0%;
     transform: translate(-50%, -50%);
     width: 80%;
     max-width: 800px;
