@@ -1025,11 +1025,3 @@ nav a:hover {
     margin-top: 2rem;
 }
 
-/* Затемняем фон под текстом для читаемости (опционально) */
-.hero-content {
-    background: rgba(255, 255, 255, 0.7);
-    padding: 2rem;
-    border-radius: 48px;
-    display: inline-block;
-    backdrop-filter: blur(4px);
-}
