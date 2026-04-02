@@ -1006,7 +1006,6 @@ nav a:hover {
     position: absolute;
     top: 0%;
     left: 0%;
-    transform: translate(-50%, -50%);
     width: 80%;
     max-width: 800px;
     border-radius: 32px;
