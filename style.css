@@ -997,6 +997,7 @@ nav a:hover {
 /* ========== ГЕРОЙ С ВИДЕОФОНОМ ========== */
 .hero {
     position: relative;
+    overflow: hidden;
     padding: 100px 0;
     text-align: center;
     background: #f2eaff;
@@ -1004,23 +1005,26 @@ nav a:hover {
 
 .hero-video {
     position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 80%;
-    max-width: 800px;
-    border-radius: 32px;
-    box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* видео покрывает весь блок героя, но не выходит за него */
     z-index: 0;
-    pointer-events: none; /* чтобы видео не мешало кликать по кнопке */
 }
 
 .hero-overlay {
-    display: none; /* затемнение не нужно */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
 }
 
 .hero .container {
     position: relative;
     z-index: 2;
-    margin-top: 2rem;
+    color: white;
 }
-
