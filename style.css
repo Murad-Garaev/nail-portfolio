@@ -1117,220 +1117,184 @@ nav a:hover {
     margin: 2rem 0;             /* отступы, чтобы секция не прилипала к краям */
 }
 
-/* ========== ПОДИУМ (ВИД СБОКУ) ========== */
-.podium-section {
-    position: relative;
-    background: radial-gradient(circle at 30% 20%, #1a1a1a, #050505);
+/* ========== ГОЛОГРАФИЧЕСКИЙ ПОДИУМ ========== */
+.hologram-podium {
+    background: radial-gradient(ellipse at 30% 40%, #0a0f1a, #010101);
     padding: 80px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    position: relative;
 }
 
 .podium-container {
     position: relative;
-    width: 500px;
-    height: 500px;
+    width: 600px;
     max-width: 90vw;
-    max-height: 90vw;
-    margin: 0 auto;
+    height: auto;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
-/* Сам подиум — вид сбоку (эллипс) */
-.podium {
-    position: absolute;
+/* 3D ЦИЛИНДРИЧЕСКИЙ ПОДИУМ (ЧЁРНЫЙ МАТОВЫЙ) */
+.podium-cylinder {
+    position: relative;
     width: 100%;
-    height: 70%;
-    bottom: 15%;
-    background: radial-gradient(ellipse at 30% 20%, #2c2c2c, #111);
-    border-radius: 50% / 15% 15% 50% 50%;
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7), inset 0 2px 2px rgba(255, 255, 255, 0.05);
-    z-index: 0;
+    height: 0;
+    padding-bottom: 40%; /* высота цилиндра относительно ширины */
+    margin-bottom: 40px;
 }
 
-/* Тень под подиумом */
-.podium::after {
-    content: '';
+.podium-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at 30% 30%, #2a2a2a, #0a0a0a);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.05), inset 0 5px 10px rgba(0,0,0,0.5);
+    z-index: 2;
+}
+
+.podium-body {
+    position: absolute;
+    top: 45%;
+    left: 5%;
+    width: 90%;
+    height: 55%;
+    background: linear-gradient(to bottom, #1a1a1a, #050505);
+    border-radius: 0 0 50% 50%;
+    z-index: 1;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.6);
+}
+
+.podium-shadow {
     position: absolute;
     bottom: -20px;
     left: 10%;
     width: 80%;
-    height: 30px;
-    background: rgba(0, 0, 0, 0.6);
+    height: 25px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.7), transparent);
+    filter: blur(10px);
     border-radius: 50%;
-    filter: blur(12px);
-    z-index: -1;
+    z-index: 0;
 }
 
-/* Карусель поверх подиума */
-.podium-carousel {
-    position: relative;
-    width: 80%;
-    height: 70%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 2;
-    gap: 10px;
-}
-
-.carousel-track-container {
-    flex: 1;
-    overflow: hidden;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    width: 100%;
-    height: 100%;
-    align-items: center;
-}
-
-.carousel-slide {
-    flex: 0 0 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.carousel-slide img {
-    width: 70%;
-    max-width: 260px;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-    border: 3px solid rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.carousel-slide img:hover {
-    transform: scale(1.02);
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5);
-}
-
-/* Кнопки */
-.carousel-btn {
-    background: rgba(30, 30, 30, 0.7);
-    backdrop-filter: blur(5px);
-    border: none;
-    color: white;
-    font-size: 1.8rem;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-.carousel-btn:hover {
-    background: rgba(0, 0, 0, 0.9);
-    transform: scale(1.05);
-}
-
-/* Индикаторы */
-.carousel-indicators {
+/* СЦЕНА ДЛЯ ФОТО И ГОЛОГРАММЫ */
+.hologram-stage {
     position: absolute;
-    bottom: -30px;
+    top: -10%;
     left: 50%;
     transform: translateX(-50%);
+    width: 35%;          /* размер фото 35% от ширины подиума */
+    aspect-ratio: 1 / 1;
     display: flex;
-    gap: 12px;
-    z-index: 2;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
 }
 
-.indicator {
-    width: 10px;
-    height: 10px;
+.hologram-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), 0 10px 20px rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    filter: drop-shadow(0 0 8px cyan);
+}
+
+/* ПУЧКИ СВЕТА (ГОЛОГРАММА) */
+.light-beams {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.beam {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    height: 0;
+    background: linear-gradient(to top, cyan, rgba(0,255,255,0));
+    transform-origin: bottom center;
+    border-radius: 2px;
+    filter: blur(2px);
+    animation: beamGrow 2s ease-out forwards;
+}
+
+@keyframes beamGrow {
+    0% { height: 0; opacity: 0; }
+    50% { height: 120px; opacity: 0.8; }
+    100% { height: 120px; opacity: 0; }
+}
+
+/* КНОПКИ УПРАВЛЕНИЯ */
+.podium-controls {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 30px;
+    z-index: 20;
+    position: relative;
+}
+
+.ctrl-btn {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(0, 255, 255, 0.5);
+    color: cyan;
+    font-size: 1.8rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
     cursor: pointer;
     transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.indicator.active {
-    background: white;
-    transform: scale(1.2);
+.ctrl-btn:hover {
+    background: rgba(0, 255, 255, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px cyan;
+}
+
+.photo-counter {
+    color: white;
+    font-family: monospace;
+    font-size: 1.2rem;
+    background: rgba(0,0,0,0.5);
+    padding: 0 1rem;
+    border-radius: 40px;
+    display: inline-flex;
+    align-items: center;
 }
 
 /* Адаптив */
 @media (max-width: 768px) {
     .podium-container {
-        width: 320px;
-        height: 320px;
+        width: 90vw;
     }
-    .carousel-btn {
-        width: 36px;
-        height: 36px;
+    .hologram-stage {
+        width: 45%;
+    }
+    .ctrl-btn {
+        width: 44px;
+        height: 44px;
         font-size: 1.2rem;
     }
-    .carousel-slide img {
-        width: 80%;
-    }
-    .carousel-indicators {
-        bottom: -20px;
-    }
-}
-
-/* ========== ЭФФЕКТ ВЕРТИКАЛЬНОЙ РАМКИ (СТОИТ НА ПОДИУМЕ) ========== */
-.carousel-slide {
-    position: relative;
-    perspective: 600px;
-    transform-style: preserve-3d;
-}
-
-.carousel-slide img {
-    display: block;
-    width: 70%;
-    max-width: 260px;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 
-        0 15px 25px -10px rgba(0, 0, 0, 0.5),   /* тень вниз (на подиум) */
-        0 0 0 5px rgba(255, 255, 255, 0.15),    /* светлая окантовка */
-        0 0 0 8px rgba(0, 0, 0, 0.3);           /* тёмная рамка (толщина) */
-    transform: rotateX(15deg) rotateY(0deg);    /* небольшой наклон назад */
-    transform-origin: bottom center;
-    transition: all 0.3s;
-}
-
-/* Имитация тени от рамки на подиуме (под фото) */
-.carousel-slide::before {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    width: 80%;
-    height: 20px;
-    background: radial-gradient(ellipse, rgba(0,0,0,0.6), transparent);
-    transform: translateX(-50%) rotateX(0deg);
-    filter: blur(8px);
-    border-radius: 50%;
-    z-index: -1;
-}
-
-/* При наведении можно усилить эффект */
-.carousel-slide:hover img {
-    transform: rotateX(10deg) translateY(-5px);
-    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.6), 0 0 0 5px rgba(255,255,255,0.2), 0 0 0 8px rgba(0,0,0,0.4);
-}
-
-.carousel-slide:hover::before {
-    bottom: -20px;
-    width: 85%;
-    filter: blur(10px);
 }
