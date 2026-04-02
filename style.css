@@ -1008,7 +1008,7 @@ nav a:hover {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 50%;
     object-fit: cover;   /* видео покрывает весь блок героя, но не выходит за него */
     z-index: 0;
 }
