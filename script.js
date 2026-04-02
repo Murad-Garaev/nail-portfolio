@@ -9,6 +9,8 @@ function initMobileMenu() {
         <div class="mobile-nav-close">&times;</div>
         <ul>
             <li><a href="index.html">Главная</a></li>
+            <li><a href="about.html">Обо мне</a></li>
+            <li><a href="portfolio.html">Портфолио</a></li>
             <li><a href="prices.html">Услуги и цены</a></li>
             <li><a href="reviews.html">Отзывы</a></li>
             <li><a href="blog.html">Блог</a></li>
@@ -142,6 +144,56 @@ function initLazyLoading() {
     }
 }
 
+// ========== ОТПРАВКА ФОРМЫ В TELEGRAM ==========
+// Безопасная версия: отправка через бэкенд
+function initTelegramForm() {
+    const form = document.getElementById('inlineBookingForm');
+    if (!form) return;
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const name = form.querySelector('#inlineName')?.value.trim();
+        const phone = form.querySelector('#inlinePhone')?.value.trim();
+        
+        if (!name || !phone) {
+            alert('Пожалуйста, заполните все поля');
+            return;
+        }
+        
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn?.textContent || 'Отправить';
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+        }
+        
+        try {
+            // ВАЖНО: токен и CHAT_ID должны быть на сервере, а не в клиентском коде!
+            // Пример отправки на ваш бэкенд
+            const response = await fetch('/api/send-message', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone })
+            });
+            
+            if (response.ok) {
+                alert('✅ Заявка отправлена! Я свяжусь с вами в ближайшее время.');
+                form.reset();
+            } else {
+                throw new Error('Server error');
+            }
+        } catch (err) {
+            console.error('Form submission error:', err);
+            alert('❌ Ошибка отправки. Попробуйте позже или напишите мне в Telegram.');
+        } finally {
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        }
+    });
+}
 
 // ========== ПОПАП ПРИ ВЫХОДЕ ==========
 function initExitPopup() {
