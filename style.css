@@ -981,3 +981,16 @@ nav a:hover {
     }
 }
 
+/* Логотип-картинка */
+.logo-image {
+    height: 50px;        /* регулируйте под свой дизайн */
+    width: auto;
+    display: block;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .logo-image {
+        height: 40px;
+    }
+}
