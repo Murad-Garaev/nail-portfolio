@@ -49,25 +49,28 @@
             <h1 id="heroTitle" class="nail-liquid-hero">Я возвращаюсь, чтобы делать ваши ручки ещё красивее ✨</h1>
             <p id="heroText">Маникюр, педикюр, дизайн – с любовью к деталям</p>
 
-<!-- СЕКЦИЯ ПОДИУМ (ВИД СБОКУ) -->
-<section class="podium-section">
+<!-- СЕКЦИЯ ГОЛОГРАФИЧЕСКОГО ПОДИУМА -->
+<section class="hologram-podium">
     <div class="podium-container">
-        <!-- Подиум (вид сбоку) -->
-        <div class="podium"></div>
-
-        <!-- Карусель фотографий -->
-        <div class="podium-carousel">
-            <button class="carousel-btn prev">◀</button>
-            <div class="carousel-track-container">
-                <div class="carousel-track">
-                    <!-- сюда JS вставит фото -->
-                </div>
-            </div>
-            <button class="carousel-btn next">▶</button>
+        <!-- 3D подиум (цилиндр) -->
+        <div class="podium-cylinder">
+            <div class="podium-top"></div>
+            <div class="podium-body"></div>
+            <div class="podium-shadow"></div>
         </div>
 
-        <!-- Индикаторы -->
-        <div class="carousel-indicators"></div>
+        <!-- Контейнер для фотографии и голограммы -->
+        <div class="hologram-stage">
+            <div class="light-beams" id="lightBeams"></div>
+            <img id="hologramImage" class="hologram-img" src="" alt="Голографическая работа">
+        </div>
+
+        <!-- Кнопки управления -->
+        <div class="podium-controls">
+            <button class="ctrl-btn prev-btn" id="prevPhoto">◀</button>
+            <span class="photo-counter" id="photoCounter">1 / 5</span>
+            <button class="ctrl-btn next-btn" id="nextPhoto">▶</button>
+        </div>
     </div>
 </section>
             <!-- ДВИЖУЩИЕСЯ БЛОКИ ПО ДИАГОНАЛИ -->
