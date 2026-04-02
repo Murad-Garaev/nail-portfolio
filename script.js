@@ -9,8 +9,6 @@ function initMobileMenu() {
         <div class="mobile-nav-close">&times;</div>
         <ul>
             <li><a href="index.html">Главная</a></li>
-            <li><a href="about.html">Обо мне</a></li>
-            <li><a href="portfolio.html">Портфолио</a></li>
             <li><a href="prices.html">Услуги и цены</a></li>
             <li><a href="reviews.html">Отзывы</a></li>
             <li><a href="blog.html">Блог</a></li>
