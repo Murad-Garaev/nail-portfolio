@@ -1028,3 +1028,118 @@ nav a:hover {
     z-index: 2;
     color: white;
 }
+
+/* ========== ДВИЖУЩИЕСЯ БЛОКИ ========== */
+.moving-cards {
+    padding: 4rem 0;
+    background: #f2eaff;
+    overflow-x: hidden;
+}
+
+.cards-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+/* Общие стили карточки */
+.card {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+    background: white;
+    border-radius: 32px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+}
+
+.card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 24px;
+}
+
+.card p {
+    margin-top: 0.8rem;
+    font-weight: 600;
+    color: #4a3b35;
+}
+
+/* ===== ДИАГОНАЛЬНОЕ СМЕЩЕНИЕ ===== */
+.diagonal-up {
+    transform: translateY(-20px) translateX(-10px);
+}
+
+.diagonal-center {
+    transform: translateY(0) translateX(0);
+}
+
+.diagonal-down {
+    transform: translateY(20px) translateX(10px);
+}
+
+/* ===== АНИМАЦИЯ ДВИЖЕНИЯ ===== */
+.moving-left {
+    animation: slideLeft 4s ease-in-out infinite alternate;
+}
+
+.moving-right {
+    animation: slideRight 4s ease-in-out infinite alternate;
+}
+
+/* Ключевые кадры */
+@keyframes slideLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-30px); }
+}
+
+@keyframes slideRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(30px); }
+}
+
+/* ===== АСИНХРОННОСТЬ (разная скорость и задержка) ===== */
+#card1 {
+    animation-duration: 3.5s;
+    animation-delay: 0s;
+}
+
+#card2 {
+    animation-duration: 5s;
+    animation-delay: 0.5s;
+}
+
+#card3 {
+    animation-duration: 4.2s;
+    animation-delay: 1s;
+}
+
+/* ===== АДАПТИВ ДЛЯ МОБИЛЬНЫХ ===== */
+@media (max-width: 768px) {
+    .cards-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+    
+    /* Убираем диагональ и уменьшаем амплитуду движения */
+    .diagonal-up, .diagonal-down {
+        transform: none;
+    }
+    
+    @keyframes slideLeft {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-15px); }
+    }
+    
+    @keyframes slideRight {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(15px); }
+    }
+}
