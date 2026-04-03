@@ -1151,33 +1151,32 @@ nav a:hover {
     z-index: 2;
 }
 
-.glow-mist {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 130%;
-    height: 130%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.25), rgba(0, 255, 255, 0) 80%);
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    z-index: 1;
-    filter: blur(20px);
+/* Блок с постоянным свечением */
+.glow-circle {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* ЧАСТИЦЫ (светящаяся пыль) */
-.glow-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
+.circle-container {
+    width: 300px;
+    max-width: 70vw;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+}
+
+.glow-img {
     width: 100%;
     height: 100%;
-    pointer-events: none;
-    z-index: 3;
-    opacity: 0;
-    transition: opacity 0.2s;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: opacity 0.8s ease;
+    opacity: 1;
+    /* СТАТИЧЕСКОЕ СВЕЧЕНИЕ – меняйте цвет и интенсивность здесь */
+    box-shadow: 0 0 25px rgba(0, 200, 255, 0.7), 0 0 10px rgba(0, 150, 255, 0.5);
+    /* Можно добавить внутреннее свечение: */
+    /* box-shadow: inset 0 0 15px rgba(0,255,255,0.3), 0 0 25px cyan; */
 }
 
 .particle {
