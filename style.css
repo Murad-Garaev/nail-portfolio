@@ -257,17 +257,218 @@ nav a:hover {
     box-shadow: 0 8px 20px rgba(155, 191, 143, 0.2);
 }
 
-/* Акционная кнопка */
-.btn-accent {
-    background: linear-gradient(135deg, #e4c5a3, #d4b28c);
-    color: #4a3b35;
-    box-shadow: 0 4px 12px rgba(228,197,163,0.3);
+/* ========== ПРЕМИАЛЬНЫЙ БАННЕР ========== */
+.premium-banner {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    background: #0a0a0a;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
 }
 
-.btn-accent:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(228,197,163,0.4);
-    filter: brightness(1.02);
+.banner-link {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.banner-inner {
+    position: relative;
+    padding: 30px 20px;
+    background: radial-gradient(ellipse at 30% 40%, #111, #000);
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+/* Звёздное небо / мерцающие точки */
+.banner-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 60% 70%, #fff, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 80% 10%, gold, rgba(0,0,0,0));
+    background-size: 200px 200px, 150px 150px, 300px 300px;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+/* Золотая рамка */
+.gold-frame {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    border: 2px solid #d4af37;
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+.gold-frame .corner {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d4af37;
+    border-radius: 50%;
+}
+
+.corner.top-left { top: -10px; left: -10px; }
+.corner.top-right { top: -10px; right: -10px; }
+.corner.bottom-left { bottom: -10px; left: -10px; }
+.corner.bottom-right { bottom: -10px; right: -10px; }
+
+/* Двойная линия в центре */
+.double-line {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: #d4af37;
+    transform: translateY(-50%);
+    box-shadow: 0 4px 0 #d4af37, 0 -4px 0 #d4af37;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+/* Контент баннера */
+.banner-content {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+}
+
+.offer-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: white;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.sale-word {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 5rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 
+        0 0 0 2px #d4af37,
+        0 0 0 4px #d4af37,
+        2px 2px 0 #d4af37;
+    letter-spacing: 8px;
+    margin: 10px 0;
+}
+
+.discount-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.9rem;
+    color: white;
+    margin: 20px 0;
+}
+
+.discount-text span {
+    display: block;
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.shop-now-btn {
+    display: inline-block;
+    background: white;
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 40px;
+    border: 1px solid #d4af37;
+    transition: all 0.2s;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.shop-now-btn:hover {
+    background: #d4af37;
+    color: black;
+    transform: scale(1.02);
+}
+
+/* Конфетти (золотые круги) */
+.confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(6px 6px at 15% 25%, gold, transparent),
+        radial-gradient(4px 4px at 75% 15%, gold, transparent),
+        radial-gradient(8px 8px at 90% 85%, gold, transparent),
+        radial-gradient(5px 5px at 10% 70%, gold, transparent),
+        radial-gradient(7px 7px at 45% 90%, gold, transparent);
+    background-repeat: no-repeat;
+    opacity: 0.5;
+}
+
+/* Кнопка закрытия */
+.banner-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+    background: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.banner-close:hover {
+    background: rgba(0,0,0,0.8);
+    transform: scale(1.05);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .premium-banner {
+        margin: 10px;
+        max-width: calc(100% - 20px);
+    }
+    .sale-word {
+        font-size: 3rem;
+        letter-spacing: 4px;
+    }
+    .offer-label {
+        font-size: 0.7rem;
+    }
+    .discount-text {
+        font-size: 0.8rem;
+    }
+    .shop-now-btn {
+        padding: 8px 24px;
+        font-size: 0.9rem;
+    }
+    .banner-inner {
+        padding: 20px 15px;
+    }
 }
 
 /* Липкая кнопка для мобильных */
