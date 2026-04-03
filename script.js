@@ -472,9 +472,9 @@ async function showImage(index, skipFade = false) {
     const img = document.getElementById('glowImage');
 
     if (!skipFade) {
-        img.style.transition = 'opacity 0.5s ease';
+        img.style.transition = 'opacity 2s ease';
         img.style.opacity = '0';
-        await new Promise(r => setTimeout(r, 500));
+        await new Promise(r => setTimeout(r, 2000));
     }
 
     img.src = imagesList[index].src;
