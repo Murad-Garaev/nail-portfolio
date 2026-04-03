@@ -15,7 +15,7 @@ body {
 
 /* Фоновый паттерн с логотипом */
 body {
-    background-image: url('images/logo-pattern.png');
+    background-image: url('images/logong.png');
     background-repeat: repeat;
     background-size: 200px 200px;  /* размер одного «клейма» */
     background-color: #f2eaff;     /* запасной цвет, пока грузится паттерн */
