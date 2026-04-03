@@ -432,112 +432,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ========== ГОЛОГРАФИЧЕСКИЙ ПОДИУМ (ТУМАН + ПЫЛЬ) ==========
-let galleryImages = [];
+// ========== ПЛАВНАЯ СМЕНА ФОТО (5 СЕКУНД) + СТАТИЧЕСКОЕ СВЕЧЕНИЕ ==========
+let imagesList = [];
 let currentIndex = 0;
-let isTransitioning = false;
-let autoTimer = null;
+let isFading = false;
+let intervalId = null;
 
-// Загрузка галереи (без изменений)
-async function loadGallery() {
+// Загружаем фотографии из JSON
+async function loadImages() {
     try {
-        const response = await fetch('content/gallery.json');
-        if (!response.ok) throw new Error();
-        const data = await response.json();
-        galleryImages = data.images;
-        if (galleryImages.length) {
-            await showPhoto(currentIndex, true);
-            startAutoSwitch();
+        const res = await fetch('content/gallery.json');
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        imagesList = data.images;
+        if (imagesList.length) {
+            await showImage(currentIndex, true);
+            startAutoSlide();
         }
     } catch (err) {
-        galleryImages = [
+        // Фото по умолчанию, если JSON нет
+        imagesList = [
             { src: 'images/work1.jpg' },
             { src: 'images/work2.jpg' },
             { src: 'images/work3.jpg' }
         ];
-        await showPhoto(currentIndex, true);
-        startAutoSwitch();
+        await showImage(currentIndex, true);
+        startAutoSlide();
     }
 }
 
-// Создание светящихся частиц (пыль)
-function createParticles(container, count = 30) {
-    container.innerHTML = '';
-    const rect = container.parentElement.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    for (let i = 0; i < count; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        const size = 2 + Math.random() * 6;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.animationDelay = `${Math.random() * 3}s`;
-        particle.style.animationDuration = `${2 + Math.random() * 3}s`;
-        container.appendChild(particle);
-    }
-}
+// Плавная смена фото
+async function showImage(index, skipFade = false) {
+    if (isFading && !skipFade) return;
+    if (index < 0) index = imagesList.length - 1;
+    if (index >= imagesList.length) index = 0;
+    if (index === currentIndex && !skipFade) return;
 
-// Показать фото с туманом и частицами
-async function showPhoto(index, skipAnimation = false) {
-    if (isTransitioning && !skipAnimation) return;
-    if (index < 0) index = galleryImages.length - 1;
-    if (index >= galleryImages.length) index = 0;
-    if (index === currentIndex && !skipAnimation) return;
+    isFading = true;
+    const img = document.getElementById('glowImage');
 
-    isTransitioning = true;
-    const img = document.getElementById('hologramImage');
-    const mist = document.querySelector('.glow-mist');
-    const particlesContainer = document.querySelector('.glow-particles');
-    
-    if (!skipAnimation) {
-        // Включаем туман и частицы
-        if (mist) mist.style.opacity = '1';
-        if (particlesContainer) {
-            createParticles(particlesContainer, 40);
-            particlesContainer.style.opacity = '1';
-        }
-        // Прячем текущее фото
+    if (!skipFade) {
+        img.style.transition = 'opacity 0.5s ease';
         img.style.opacity = '0';
-        await new Promise(r => setTimeout(r, 50));
+        await new Promise(r => setTimeout(r, 500));
     }
-    
-    // Меняем фото
-    setTimeout(() => {
-        img.src = galleryImages[index].src;
-        img.style.transition = 'opacity 0.6s ease';
-        img.style.opacity = '1';
-    }, skipAnimation ? 0 : 300);
-    
-    if (!skipAnimation) {
-        // Туман и частицы гаснут через 2 секунды
-        await new Promise(r => setTimeout(r, 2000));
-        if (mist) mist.style.opacity = '0';
-        if (particlesContainer) particlesContainer.style.opacity = '0';
-    }
-    
+
+    img.src = imagesList[index].src;
+    img.style.opacity = '1';
+
     currentIndex = index;
-    isTransitioning = false;
+    isFading = false;
 }
 
-// Автоматическая смена
-function startAutoSwitch() {
-    if (autoTimer) clearInterval(autoTimer);
-    autoTimer = setInterval(() => {
-        if (!isTransitioning) {
+// Автоматическое переключение каждые 5 секунд
+function startAutoSlide() {
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(() => {
+        if (!isFading) {
             let next = currentIndex + 1;
-            if (next >= galleryImages.length) next = 0;
-            showPhoto(next);
+            if (next >= imagesList.length) next = 0;
+            showImage(next);
         }
-    }, 3500);
+    }, 5000); // 5000 мс = 5 секунд
 }
 
-function initPodium() {
-    loadGallery();
-}
-
+// Запуск
 document.addEventListener('DOMContentLoaded', () => {
-    initPodium();
+    loadImages();
 });
