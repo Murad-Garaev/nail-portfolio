@@ -257,16 +257,16 @@ nav a:hover {
     box-shadow: 0 8px 20px rgba(155, 191, 143, 0.2);
 }
 
-/* ========== ПРЕМИАЛЬНЫЙ БАННЕР ========== */
+/* ========== ПРЕМИАЛЬНЫЙ БАННЕР (УМЕНЬШЕННАЯ ВЫСОТА) ========== */
 .premium-banner {
     position: relative;
     width: 100%;
     max-width: 800px;
-    margin: 20px auto;
+    margin: 15px auto;
     background: #0a0a0a;
-    border-radius: 24px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     transition: all 0.3s ease;
 }
 
@@ -278,13 +278,13 @@ nav a:hover {
 
 .banner-inner {
     position: relative;
-    padding: 30px 20px;
+    padding: 16px 20px;  /* было 30px 20px */
     background: radial-gradient(ellipse at 30% 40%, #111, #000);
-    border-radius: 24px;
+    border-radius: 20px;
     overflow: hidden;
 }
 
-/* Звёздное небо / мерцающие точки */
+/* Звёздное небо / мерцающие точки (без изменений) */
 .banner-inner::before {
     content: '';
     position: absolute;
@@ -295,48 +295,48 @@ nav a:hover {
     background-image: 
         radial-gradient(2px 2px at 20% 30%, #fff, rgba(0,0,0,0)),
         radial-gradient(1px 1px at 60% 70%, #fff, rgba(0,0,0,0)),
-        radial-gradient(3px 3px at 80% 10%, gold, rgba(0,0,0,0));
-    background-size: 200px 200px, 150px 150px, 300px 300px;
+        radial-gradient(2px 2px at 80% 10%, gold, rgba(0,0,0,0));
+    background-size: 150px 150px, 120px 120px, 200px 200px;
     background-repeat: no-repeat;
-    opacity: 0.6;
+    opacity: 0.5;
     pointer-events: none;
 }
 
 /* Золотая рамка */
 .gold-frame {
     position: absolute;
-    top: 12px;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    border: 2px solid #d4af37;
-    border-radius: 20px;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    border: 1.5px solid #d4af37;
+    border-radius: 16px;
     pointer-events: none;
 }
 
 .gold-frame .corner {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    border: 2px solid #d4af37;
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid #d4af37;
     border-radius: 50%;
 }
 
-.corner.top-left { top: -10px; left: -10px; }
-.corner.top-right { top: -10px; right: -10px; }
-.corner.bottom-left { bottom: -10px; left: -10px; }
-.corner.bottom-right { bottom: -10px; right: -10px; }
+.corner.top-left { top: -7px; left: -7px; }
+.corner.top-right { top: -7px; right: -7px; }
+.corner.bottom-left { bottom: -7px; left: -7px; }
+.corner.bottom-right { bottom: -7px; right: -7px; }
 
-/* Двойная линия в центре */
+/* Двойная линия в центре (тоньше) */
 .double-line {
     position: absolute;
     top: 50%;
     left: 10%;
     right: 10%;
-    height: 2px;
+    height: 1px;
     background: #d4af37;
     transform: translateY(-50%);
-    box-shadow: 0 4px 0 #d4af37, 0 -4px 0 #d4af37;
+    box-shadow: 0 2px 0 #d4af37, 0 -2px 0 #d4af37;
     opacity: 0.3;
     pointer-events: none;
 }
@@ -350,36 +350,36 @@ nav a:hover {
 
 .offer-label {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.8rem;
-    letter-spacing: 3px;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
     color: white;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     opacity: 0.8;
 }
 
 .sale-word {
     font-family: 'Montserrat', sans-serif;
-    font-size: 5rem;
+    font-size: 2.8rem;      /* было 5rem */
     font-weight: 800;
     color: white;
     text-shadow: 
-        0 0 0 2px #d4af37,
-        0 0 0 4px #d4af37,
-        2px 2px 0 #d4af37;
-    letter-spacing: 8px;
-    margin: 10px 0;
+        0 0 0 1.5px #d4af37,
+        0 0 0 3px #d4af37,
+        1px 1px 0 #d4af37;
+    letter-spacing: 4px;
+    margin: 5px 0;
 }
 
 .discount-text {
     font-family: 'Montserrat', sans-serif;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: white;
-    margin: 20px 0;
+    margin: 12px 0 8px;
 }
 
 .discount-text span {
     display: block;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     opacity: 0.7;
 }
 
@@ -389,12 +389,13 @@ nav a:hover {
     color: black;
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
-    padding: 12px 32px;
-    border-radius: 40px;
+    padding: 8px 24px;      /* было 12px 32px */
+    border-radius: 30px;
     border: 1px solid #d4af37;
     transition: all 0.2s;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 6px;
+    font-size: 0.8rem;
 }
 
 .shop-now-btn:hover {
@@ -403,7 +404,7 @@ nav a:hover {
     transform: scale(1.02);
 }
 
-/* Конфетти (золотые круги) */
+/* Конфетти (золотые круги) - уменьшены */
 .confetti {
     position: absolute;
     top: 0;
@@ -412,29 +413,29 @@ nav a:hover {
     height: 100%;
     pointer-events: none;
     background-image: 
-        radial-gradient(6px 6px at 15% 25%, gold, transparent),
-        radial-gradient(4px 4px at 75% 15%, gold, transparent),
-        radial-gradient(8px 8px at 90% 85%, gold, transparent),
-        radial-gradient(5px 5px at 10% 70%, gold, transparent),
-        radial-gradient(7px 7px at 45% 90%, gold, transparent);
+        radial-gradient(4px 4px at 15% 25%, gold, transparent),
+        radial-gradient(3px 3px at 75% 15%, gold, transparent),
+        radial-gradient(5px 5px at 90% 85%, gold, transparent),
+        radial-gradient(3px 3px at 10% 70%, gold, transparent),
+        radial-gradient(4px 4px at 45% 90%, gold, transparent);
     background-repeat: no-repeat;
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 /* Кнопка закрытия */
 .banner-close {
     position: absolute;
-    top: 15px;
-    right: 20px;
-    width: 28px;
-    height: 28px;
+    top: 12px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
     background: rgba(0,0,0,0.5);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     z-index: 10;
     transition: all 0.2s;
@@ -446,29 +447,49 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-/* Адаптивность */
+/* Адаптивность для мобильных */
 @media (max-width: 768px) {
     .premium-banner {
-        margin: 10px;
-        max-width: calc(100% - 20px);
-    }
-    .sale-word {
-        font-size: 3rem;
-        letter-spacing: 4px;
-    }
-    .offer-label {
-        font-size: 0.7rem;
-    }
-    .discount-text {
-        font-size: 0.8rem;
-    }
-    .shop-now-btn {
-        padding: 8px 24px;
-        font-size: 0.9rem;
+        margin: 8px;
+        max-width: calc(100% - 16px);
     }
     .banner-inner {
-        padding: 20px 15px;
+        padding: 12px 15px;
     }
+    .sale-word {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    .offer-label {
+        font-size: 0.6rem;
+        margin-bottom: 5px;
+    }
+    .discount-text {
+        font-size: 0.7rem;
+        margin: 8px 0 5px;
+    }
+    .discount-text span {
+        font-size: 0.55rem;
+    }
+    .shop-now-btn {
+        padding: 6px 18px;
+        font-size: 0.7rem;
+    }
+    .gold-frame {
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        bottom: 5px;
+    }
+    .gold-frame .corner {
+        width: 10px;
+        height: 10px;
+        border-width: 1px;
+    }
+    .corner.top-left { top: -5px; left: -5px; }
+    .corner.top-right { top: -5px; right: -5px; }
+    .corner.bottom-left { bottom: -5px; left: -5px; }
+    .corner.bottom-right { bottom: -5px; right: -5px; }
 }
 
 /* Липкая кнопка для мобильных */
