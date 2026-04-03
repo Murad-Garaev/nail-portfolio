@@ -1151,21 +1151,20 @@ nav a:hover {
     z-index: 2;
 }
 
-/* ТУМАН (рассеянное свечение) */
 .glow-mist {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 200%;
-    height: 200%;
+    width: 130%;
+    height: 130%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0) 70%);
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.25), rgba(0, 255, 255, 0) 80%);
     border-radius: 50%;
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
     z-index: 1;
-    filter: blur(25px);
+    filter: blur(20px);
 }
 
 /* ЧАСТИЦЫ (светящаяся пыль) */
