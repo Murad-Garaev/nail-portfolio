@@ -1117,99 +1117,41 @@ nav a:hover {
     margin: 2rem 0;             /* отступы, чтобы секция не прилипала к краям */
 }
 
-/* ========== ГОЛОГРАФИЧЕСКИЙ ПОДИУМ ========== */
-.hologram-podium {
-    background: radial-gradient(ellipse at 30% 40%, #0a0f1a, #010101);
-    padding: 80px 20px;
+/* ========== ГОЛОГРАФИЧЕСКАЯ ПРОЕКЦИЯ (БЕЗ ПОДИУМА) ========== */
+.hologram-section {
+    /* Нет фона — прозрачный, вписывается в любой фон сайта */
+    padding: 60px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+}
+
+.hologram-container {
     position: relative;
-}
-
-.podium-container {
-    position: relative;
-    width: 600px;
-    max-width: 90vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-/* 3D ЦИЛИНДРИЧЕСКИЙ ПОДИУМ (ЧЁРНЫЙ МАТОВЫЙ) */
-.podium-cylinder {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 40%; /* высота цилиндра относительно ширины */
-    margin-bottom: 40px;
-}
-
-.podium-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(ellipse at 30% 30%, #2a2a2a, #0a0a0a);
-    border-radius: 50%;
-    box-shadow: 0 0 0 2px rgba(255,255,255,0.05), inset 0 5px 10px rgba(0,0,0,0.5);
-    z-index: 2;
-}
-
-.podium-body {
-    position: absolute;
-    top: 45%;
-    left: 5%;
-    width: 90%;
-    height: 55%;
-    background: linear-gradient(to bottom, #1a1a1a, #050505);
-    border-radius: 0 0 50% 50%;
-    z-index: 1;
-    box-shadow: 0 15px 25px rgba(0,0,0,0.6);
-}
-
-.podium-shadow {
-    position: absolute;
-    bottom: -20px;
-    left: 10%;
-    width: 80%;
-    height: 25px;
-    background: radial-gradient(ellipse, rgba(0,0,0,0.7), transparent);
-    filter: blur(10px);
-    border-radius: 50%;
-    z-index: 0;
-}
-
-/* СЦЕНА ДЛЯ ФОТО И ГОЛОГРАММЫ */
-.hologram-stage {
-    position: absolute;
-    top: -10%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 35%;          /* размер фото 35% от ширины подиума */
+    width: 300px;          /* размер контейнера под фото */
+    max-width: 70vw;
     aspect-ratio: 1 / 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
+    margin: 0 auto;
 }
 
+/* ФОТОГРАФИЯ */
 .hologram-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), 0 10px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), 0 10px 20px rgba(0,0,0,0.2);
     opacity: 0;
     transition: opacity 0.5s ease;
     filter: drop-shadow(0 0 8px cyan);
+    position: relative;
+    z-index: 2;
 }
 
-/* ========== РАССЕЯННОЕ СВЕЧЕНИЕ (ТУМАН + ЧАСТИЦЫ) ========== */
+/* ТУМАН (рассеянное свечение) */
 .glow-mist {
     position: absolute;
     top: 50%;
@@ -1217,15 +1159,16 @@ nav a:hover {
     width: 200%;
     height: 200%;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(0, 255, 255, 0.15), rgba(0, 255, 255, 0) 70%);
+    background: radial-gradient(circle, rgba(0, 255, 255, 0.2), rgba(0, 255, 255, 0) 70%);
     border-radius: 50%;
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
-    z-index: 5;
-    filter: blur(20px);
+    z-index: 1;
+    filter: blur(25px);
 }
 
+/* ЧАСТИЦЫ (светящаяся пыль) */
 .glow-particles {
     position: absolute;
     top: 0;
@@ -1233,7 +1176,7 @@ nav a:hover {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 6;
+    z-index: 3;
     opacity: 0;
     transition: opacity 0.2s;
 }
@@ -1253,66 +1196,9 @@ nav a:hover {
     100% { transform: translate(-5px, 5px) scale(1); opacity: 0.6; }
 }
 
-@keyframes beamGrow {
-    0% { height: 0; opacity: 0; }
-    50% { height: 120px; opacity: 0.8; }
-    100% { height: 120px; opacity: 0; }
-}
-
-/* КНОПКИ УПРАВЛЕНИЯ */
-.podium-controls {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin-top: 30px;
-    z-index: 20;
-    position: relative;
-}
-
-.ctrl-btn {
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(0, 255, 255, 0.5);
-    color: cyan;
-    font-size: 1.8rem;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.ctrl-btn:hover {
-    background: rgba(0, 255, 255, 0.2);
-    transform: scale(1.05);
-    box-shadow: 0 0 15px cyan;
-}
-
-.photo-counter {
-    color: white;
-    font-family: monospace;
-    font-size: 1.2rem;
-    background: rgba(0,0,0,0.5);
-    padding: 0 1rem;
-    border-radius: 40px;
-    display: inline-flex;
-    align-items: center;
-}
-
-/* Адаптив */
+/* АДАПТИВ */
 @media (max-width: 768px) {
-    .podium-container {
-        width: 90vw;
-    }
-    .hologram-stage {
-        width: 45%;
-    }
-    .ctrl-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
+    .hologram-container {
+        width: 250px;
     }
 }
