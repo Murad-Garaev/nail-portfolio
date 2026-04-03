@@ -500,3 +500,18 @@ function startAutoSlide() {
 document.addEventListener('DOMContentLoaded', () => {
     loadImages();
 });
+
+// Закрытие премиального баннера
+const banner = document.getElementById('premiumBanner');
+const closeBtn = document.getElementById('bannerClose');
+if (closeBtn && banner) {
+    closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        banner.style.transition = 'opacity 0.4s ease';
+        banner.style.opacity = '0';
+        setTimeout(() => {
+            banner.style.display = 'none';
+        }, 400);
+    });
+}
